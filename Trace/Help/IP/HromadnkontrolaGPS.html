@@ -1,0 +1,76 @@
+﻿<html>
+	
+<head>
+	<title>Seznam chybov&yacute;ch zpr&aacute;v</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Professional Edition 3.9.1.648">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#topic_header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/hnd.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			if (top.frames.length == 0)
+			{
+				var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+				top.location.href = "EOSTRACE.html?" + sTopicUrl;
+			}
+			else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+			{
+				top.FrameTOC.SelectTocItem("HromadnkontrolaGPS");
+			}
+		});
+	</script>
+</head>
+
+<body>
+
+	<div id="topic_header">
+			<div id="topic_header_content">
+				<h1>Seznam chybov&yacute;ch zpr&aacute;v</h1>
+				
+				<div id="topic_breadcrumb">
+					<a href="Novspis.html">Z&aacute;ložka NOV&Eacute;</a> &rsaquo;&rsaquo; <a href="KontrolaGPSsouadnic.html">Kontrola GPS sou&#345;adnic</a> &rsaquo;&rsaquo; </div>
+				</div>
+			<div id="topic_header_nav">
+				<a href="KontrolaGPSsouadnic.html"><img src="img/arrow_up.png" alt="Parent"/></a>
+				
+				<a href="Ovldnmapy.html"><img src="img/arrow_left.png" alt="Previous"/></a>
+				
+				<a href="KontrolaGPSsouadnic3.html"><img src="img/arrow_right.png" alt="Next"/></a>
+				
+				</div>
+			<div class="clear"></div>
+		</div>
+	<div id="topic_content">
+		
+<p></p>
+<p class="rvps3"><span class="rvts7">Seznam chybových stavů</span></p>
+<ol style="text-indent: 0px; margin-left: 24px; list-style-position: outside;">
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Pro tento GeocoderRequest nebyl nalezen žádný výsledek - No result was found for this GeocoderRequest</span><br/><span class="rvts34">Řešení: </span><span class="rvts35">Uživatel musí spustit </span><a class="rvts15" href="KontrolaGPSsouadnic2.html">ruční funkci</a><span class="rvts35"> pro kontrolu GPS souřadnic a adresu dohledat ručně, případně jí v rozdělených oknech doplnit správně.</span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Více než jeden výsledek - More than one result</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Uživatel musí spustit </span><a class="rvts15" href="KontrolaGPSsouadnic2.html">ruční funkci</a><span class="rvts6"> pro kontrolu GPS souřadnic a adresu překontrolovat. Většinou je správná, ale systém může při parsrování (dělení sloučené adresy na požadované části) vytvořit několik variant. Opět je třeba uživatelův zásah. </span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Při kontaktování serverů Google došlo k problému - There was a problem contacting the Google servers</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Nutno funkci spustit později. V případě, že tento problém trvá déle, je třeba překontrolovat přístup aplikace na web.</span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Tento GeocoderRequest byl neplatný - This GeocoderRequest was invalid</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Tato chyba není očekávána, pokud se však objeví, je třeba jí řešit s technickou podporou.</span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Webová stránka překročila limit žádostí v příliš krátké době - The webpage has gone over the requests limit in too short a period of time</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Uživatel musí počkat, nebo řešit GPS validaci ručně. Každá IP adresa má svůj limit (v tisících dotazů denně), který může být při nevhodném používání funkce překročen.</span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Webová stránka nesmí používat geocoder - The webpage is not allowed to use the geocoder</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Toto je možnost, kdy Google uzamkne IP adresu z důvodu překročení denního využití funkce. Tuto chybu je třeba řešit s technickou podporou.</span></li>
+<li class="rvps2" style="margin-left: 0"><span class="rvts6">Žádost o geokódování nemohla být zpracována kvůli chybě serveru. Požadavek může uspět, pokud funkci spustíte opakovaně. - A geocoding request could not be processed due to a server error. The request may succeed if you try again</span><br/><span class="rvts34">Řešení: </span><span class="rvts6">Uživatel musí počkat, nebo řešit GPS validace </span><a class="rvts15" href="KontrolaGPSsouadnic2.html">ručně</a><span class="rvts6">.</span></li>
+</ol>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p></p>
+</div>
+	
+	</body>
+	
+</html>
+

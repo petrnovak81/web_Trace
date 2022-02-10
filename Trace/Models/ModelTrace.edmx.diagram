@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="61ce1562608442dea156023bcc1641c1" Name="Diagram1" ZoomLevel="93">
+        <EntityTypeShape EntityType="TRACEModel.tblLastLapse" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.tblRegisterRestriction" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.tblRole" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vw_ListReminders" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vw_ListUrgAndRemind" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vw_SumPaymentsByFV" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_AddressType" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_AddressValidity" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_ClosedFile" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_Currency" Width="1.5" PointX="2.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PAType" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PAValidityType" Width="1.5" PointX="4.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PaymentLabel" Width="1.5" PointX="16.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PersType" Width="1.5" PointX="6.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PhoneValidity" Width="1.5" PointX="8.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_ReminderType" Width="1.5" PointX="16.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_State" Width="1.5" PointX="10.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_Urgency" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.vwSpisyPlatbyPred1OSN" Width="1.5" PointX="16.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TRACEModel.tblObjectAccessibility" Width="1.5" PointX="6.375" PointY="11.875" />
+        <EntityTypeShape EntityType="TRACEModel.tblUser" Width="1.5" PointX="10.567577221695137" PointY="26.390734029184436" />
+        <AssociationConnector Association="TRACEModel.FK_tblUsers_tblRoles" />
+        <EntityTypeShape EntityType="TRACEModel.tblOSNObjectDefinition" Width="1.5" PointX="10.134676811348029" PointY="7.5250109767192095" />
+        <EntityTypeShape EntityType="TRACEModel.vwrr_PersTypeMini" Width="1.5" PointX="11.060709619457231" PointY="31.632973432369983" />
+        <EntityTypeShape EntityType="TRACEModel.tblConstant" Width="1.5" PointX="10.423492266993733" PointY="6.865097481228922" />
+        <EntityTypeShape EntityType="TRACEModel.tblUsersLoginLog" Width="1.5" PointX="0.061235798551345144" PointY="30.922845348214192" />
+        <EntityTypeShape EntityType="TRACEModel.vw_Campaign" Width="1.5" PointX="11.712560366705322" PointY="18.289593109064548" />
+        <EntityTypeShape EntityType="TRACEModel.vw_CampMember" Width="1.5" PointX="3.6385681254968825" PointY="16.265573538963483" />
+        <EntityTypeShape EntityType="TRACEModel.vw_Constant1" Width="1.5" PointX="11.620935899960312" PointY="25.524802085722239" />
+        <EntityTypeShape EntityType="TRACEModel.tblCampMember" Width="1.5" PointX="8.67347836153278" PointY="4.8747216336777068" />
+        <EntityTypeShape EntityType="TRACEModel.tblCampaign" Width="1.5" PointX="8.568384193148642" PointY="2.9645136012530484" />
+        <EntityTypeShape EntityType="TRACEModel.tblCampRouteTrajectory" Width="1.5" PointX="3.0876553687675186" PointY="19.742477724208719" />
+        <EntityTypeShape EntityType="TRACEModel.vw_CampCompare_GPS_Date" Width="1.5" PointX="7.0225663012930042" PointY="8.9314667177067442" />
+        <EntityTypeShape EntityType="TRACEModel.tblExternalAddress" Width="1.5" PointX="3.3887208809092275" PointY="5.7904622432731383" />
+        <EntityTypeShape EntityType="TRACEModel.vw_AllUrgRemindMsg" Width="1.5" PointX="9.9971332838745468" PointY="3.4462777541234519" />
+        <EntityTypeShape EntityType="TRACEModel.vw_CampaignALL" Width="1.5" PointX="2.9505767519355643" PointY="1.5777913339332637" />
+        <EntityTypeShape EntityType="TRACEModel.tblOSNUnfinished" Width="1.5" PointX="16.375" PointY="18.75" />
+        <EntityTypeShape EntityType="TRACEModel.tblAAALog" Width="1.5" PointX="13.75" PointY="21.25" />
+        <EntityTypeShape EntityType="TRACEModel.tblKompost" Width="1.5" PointX="9.3985577176318316" PointY="2.5322603148092795" />
+        <EntityTypeShape EntityType="TRACEModel.tblError" Width="1.5" PointX="0.30420354581633746" PointY="21.85511438076157" />
+        <EntityTypeShape EntityType="TRACEModel.tblSpisyOsobyAdresy" Width="1.5" PointX="2.522645647880922" PointY="9.89057076437891" />
+        <EntityTypeShape EntityType="TRACEModel.tblSpisyDocument" Width="1.5" PointX="4.2388333213696407" PointY="14.256471774660271" />
+        <EntityTypeShape EntityType="TRACEModel.vwA1_Dohody" Width="1.5" PointX="9.4555632087660779" PointY="20.55282942417675" />
+        <EntityTypeShape EntityType="TRACEModel.vwA1_Finished" Width="1.5" PointX="8.1270031910981064" PointY="19.290856087250102" />
+        <EntityTypeShape EntityType="TRACEModel.vwA1_KeZprac" Width="1.5" PointX="8.7293706353424909" PointY="9.7942225680659636" />
+        <EntityTypeShape EntityType="TRACEModel.vwA1_Novy" Width="1.5" PointX="2.5942589801709444" PointY="19.480139428507602" />
+        <EntityTypeShape EntityType="TRACEModel.vwA1_OSN" Width="1.5" PointX="9.8960393564291476" PointY="21.670401508766414" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLDohody" Width="1.5" PointX="3.125" PointY="27.25" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLDohodySub" Width="1.5" PointX="10.788104457216386" PointY="11.230046560629292" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLKeZprac" Width="1.5" PointX="0.95747484125079352" PointY="3.2977464512445716" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLKeZpracSub" Width="1.5" PointX="5.5747634123893288" PointY="2.4094595473303735" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLNovy" Width="1.5" PointX="5.2644959843086525" PointY="1.0711345230560445" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLNovySub" Width="1.5" PointX="5.1063703527238085" PointY="14.745647601199172" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLOSNSub" Width="1.5" PointX="6.8147516412729168" PointY="27.382780728574275" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_Basic" Width="1.5" PointX="10.745217941117108" PointY="7.1762638870516158" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_DLBasicSub" Width="1.5" PointX="9.1298857858078" PointY="13.99891308601895" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F21_WithoutFV" Width="1.5" PointX="10.411123276879602" PointY="8.4569099584859373" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F22_WithFirstFV" Width="1.5" PointX="5.43126791223477" PointY="25.830493939030212" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F23_WithSecondFV" Width="1.5" PointX="7.1794437333845735" PointY="28.888433499675447" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F24_WithMoreThanSecond" Width="1.5" PointX="2.5762608100549604" PointY="12.456737792332069" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F31_WithUrgencyOnly" Width="1.5" PointX="8.234102998037871" PointY="15.252377085039568" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F310_AgrCancOver5Days" Width="1.5" PointX="9.5134819138392253" PointY="10.145347823456557" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F311_DateLapseUnder6M" Width="1.5" PointX="3.3324261136969673" PointY="10.857971911718124" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F312_ReturToCredUnder2M" Width="1.5" PointX="4.680745540503759" PointY="16.342392273406681" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F313_DPlanOverDMax" Width="1.5" PointX="2.3758471470213713" PointY="9.6038649871963386" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F314_UrgCashToCreditor" Width="1.5" PointX="8.5022033008291391" PointY="4.2084379811810511" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F32_NotYetAcceptedAfter2Days" Width="1.5" PointX="1.5293887246071307" PointY="21.891637991132047" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F33_NotYetAccepted" Width="1.5" PointX="9.5587934877531566" PointY="10.469187622177037" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F34_NewReturned" Width="1.5" PointX="4.271667879201317" PointY="19.995084727180696" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F35_WithoutPlanFV__dodelat" Width="1.5" PointX="0.41931939144587116" PointY="27.895540965672367" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F36_DateFVOver" Width="1.5" PointX="4.9276155219076276" PointY="31.741760060070902" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F37_MaxFVDateOver" Width="1.5" PointX="5.2855293868507864" PointY="22.255447666279714" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F38_Urgency58" Width="1.5" PointX="10.996514779979602" PointY="23.173544194164474" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F39_AgreementCanceled" Width="1.5" PointX="11.778552532092924" PointY="20.311368594091093" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F41_ClosedAll" Width="1.5" PointX="10.779999548001214" PointY="8.7227723043052343" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F42_ClosedBySuper" Width="1.5" PointX="6.0572111858321414" PointY="17.977602266696096" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F43_ClosedFromProcess" Width="1.5" PointX="10.32728652019393" PointY="1.581918165824338" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F44_ConditionedClose" Width="1.5" PointX="4.167572448108146" PointY="30.36461052222392" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_F45_InReturnRequest" Width="1.5" PointX="8.0161359366104641" PointY="31.016367256183347" />
+        <EntityTypeShape EntityType="TRACEModel.vw_Users" Width="1.5" PointX="6.4903145555827368" PointY="28.543843103825974" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_DLBasic" Width="1.5" PointX="0.74694084038349839" PointY="7.6710859572845909" />
+        <EntityTypeShape EntityType="TRACEModel.vwA2_DLOSN" Width="1.5" PointX="5.3498623433289412" PointY="26.32660722468356" />
+        <EntityTypeShape EntityType="TRACEModel.vw_CreditorTemplates" Width="1.5" PointX="12.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TRACEModel.tblSpisy" Width="1.5" PointX="18.375" PointY="18.75" />
+        <EntityTypeShape EntityType="TRACEModel.vwAD_BasicNonAccepted" Width="1.5" PointX="13.375" PointY="3.75" />
+        <EntityTypeShape EntityType="TRACEModel.tblUradyCiselnik" Width="1.5" PointX="13.375" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

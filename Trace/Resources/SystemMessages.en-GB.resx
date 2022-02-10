@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessIsNotAllowed" xml:space="preserve">
+    <value>&lt;div class='validate-msg'&gt;&lt;span class='k-icon k-i-warning'&gt;&lt;/span&gt;Access is not allowed&lt;/div&gt;</value>
+  </data>
+  <data name="AccountAllowed" xml:space="preserve">
+    <value>Account enabled</value>
+  </data>
+  <data name="AddRecord" xml:space="preserve">
+    <value>Add a new record</value>
+  </data>
+  <data name="ChangePasswordAlert" xml:space="preserve">
+    <value>The password has expired, the user does not exist, or the user already has the assigned password.</value>
+  </data>
+  <data name="ChangePasswordT1" xml:space="preserve">
+    <value>The field must include:</value>
+  </data>
+  <data name="ChangePasswordT10" xml:space="preserve">
+    <value>Do not pick passwords that you use on other sites or that can easily be guessed.</value>
+  </data>
+  <data name="ChangePasswordT11" xml:space="preserve">
+    <value>Not filled</value>
+  </data>
+  <data name="ChangePasswordT12" xml:space="preserve">
+    <value>Too many identical characters in a row.</value>
+  </data>
+  <data name="ChangePasswordT13" xml:space="preserve">
+    <value>Do not pick passwords that you use on other sites or that can easily be guessed.</value>
+  </data>
+  <data name="ChangePasswordT14" xml:space="preserve">
+    <value>Faintly</value>
+  </data>
+  <data name="ChangePasswordT15" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="ChangePasswordT16" xml:space="preserve">
+    <value>Strongly</value>
+  </data>
+  <data name="ChangePasswordT2" xml:space="preserve">
+    <value>At least one character</value>
+  </data>
+  <data name="ChangePasswordT3" xml:space="preserve">
+    <value>8 or more characters</value>
+  </data>
+  <data name="ChangePasswordT4" xml:space="preserve">
+    <value>Case and lower case letters</value>
+  </data>
+  <data name="ChangePasswordT5" xml:space="preserve">
+    <value>At least one number</value>
+  </data>
+  <data name="ChangePasswordT6" xml:space="preserve">
+    <value>Same password as previous</value>
+  </data>
+  <data name="ChangePasswordT7" xml:space="preserve">
+    <value>The correct email</value>
+  </data>
+  <data name="ChangePasswordT8" xml:space="preserve">
+    <value>Unique email</value>
+  </data>
+  <data name="ChangePasswordT9" xml:space="preserve">
+    <value>Password strength:</value>
+  </data>
+  <data name="ConfirmDeleteSK" xml:space="preserve">
+    <value>Do you wish to cancel the repayment schedule?</value>
+  </data>
+  <data name="DeleteRecordTitle" xml:space="preserve">
+    <value>Delete record</value>
+  </data>
+  <data name="EditRecordTitle" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File not found</value>
+  </data>
+  <data name="ForgottenPassword" xml:space="preserve">
+    <value>Can not sign up?</value>
+  </data>
+  <data name="forgPassEmailBody" xml:space="preserve">
+    <value>Hello, you asked for a password reset. You will be redirected to the page to create your new password by pressing the button below.</value>
+  </data>
+  <data name="IsEmpty" xml:space="preserve">
+    <value>It's empty</value>
+  </data>
+  <data name="IsNotEmpty" xml:space="preserve">
+    <value>It is not empty</value>
+  </data>
+  <data name="isOffLine" xml:space="preserve">
+    <value>Warning! The app did not receive a third-party response (google api). Google (maps, gps ...) will be unavailable. &lt;br&gt; Check the network connection. You are probably offline.</value>
+  </data>
+  <data name="LoginWrong" xml:space="preserve">
+    <value>&lt;div class='validate-msg'&gt;&lt;span class='k-icon k-i-warning'&gt;&lt;/span&gt;Invalid password or username&lt;/div&gt;</value>
+  </data>
+  <data name="newPassEmailBody" xml:space="preserve">
+    <value>Hello, a new account has been created in TRACE. For successful completion of the registration, it is necessary to create your own password. You will be redirected to the page to create your new password by pressing the button below.</value>
+  </data>
+  <data name="NewUsersPostEmail" xml:space="preserve">
+    <value>An email asking for a password change was sent to new users</value>
+  </data>
+  <data name="NoCheckedItem" xml:space="preserve">
+    <value>You are in the unchecked file, this file will not be processed. Continue?</value>
+  </data>
+  <data name="NoComment1" xml:space="preserve">
+    <value>Enter the reason for closing the file</value>
+  </data>
+  <data name="NoComment2" xml:space="preserve">
+    <value>Enter the reason for transferring the case to the FV</value>
+  </data>
+  <data name="NoComment3" xml:space="preserve">
+    <value>Enter the reason for the request to return the file</value>
+  </data>
+  <data name="NoComment4" xml:space="preserve">
+    <value>Post a comment</value>
+  </data>
+  <data name="NoComment5" xml:space="preserve">
+    <value>Enter the reason for the D1MAX change</value>
+  </data>
+  <data name="NoComment6" xml:space="preserve">
+    <value>Enter the reason for DMAX changes</value>
+  </data>
+  <data name="NoDate" xml:space="preserve">
+    <value>Please fill in the date</value>
+  </data>
+  <data name="NoItems" xml:space="preserve">
+    <value>Select files to process</value>
+  </data>
+  <data name="NoRecords" xml:space="preserve">
+    <value>No data available</value>
+  </data>
+  <data name="PassEmailButton" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="PassEmailSubject" xml:space="preserve">
+    <value>Changing the password</value>
+  </data>
+  <data name="PassRequired" xml:space="preserve">
+    <value>The password field can not be empty</value>
+  </data>
+  <data name="PostEmailUser" xml:space="preserve">
+    <value>The user has been sent an email with instructions to change the password</value>
+  </data>
+  <data name="PostUsesNotFound" xml:space="preserve">
+    <value>&lt;div class='validate-msg'&gt;&lt;span class='k-icon k-i-warning'&gt;&lt;/span&gt; Could not send an email to change the password because the user with this email was not found&lt;/div&gt;</value>
+  </data>
+  <data name="resetPassEmailBody" xml:space="preserve">
+    <value>Hello, someone has requested to change your password to TRACE. If you did not request a change, ignore this email. Otherwise, with the button below, you will be redirected to a page to change your password.</value>
+  </data>
+  <data name="ResetPasswordTitle" xml:space="preserve">
+    <value>Reset a user password and send an email asking you to change the password.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Unique" xml:space="preserve">
+    <value>must be unique</value>
+  </data>
+  <data name="UseNotFound" xml:space="preserve">
+    <value>&lt;div class='validate-msg'&gt;&lt;span class='k-icon k-i-warning'&gt;&lt;/span&gt;User not found&lt;/div&gt;</value>
+  </data>
+  <data name="UserLoginRequired" xml:space="preserve">
+    <value>The email field can not be empty</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="WrongEmail" xml:space="preserve">
+    <value>Bad email address</value>
+  </data>
+</root>

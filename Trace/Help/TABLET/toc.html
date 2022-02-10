@@ -1,0 +1,566 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<title>EOS TRACE Tablet- Table of Contents</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Professional Edition 3.9.1.648">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/silver-theme/jquery-ui-1.8.12.custom.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/dynatree/chm/ui.dynatree.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="css/toc.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#tabs .ui-widget-header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/jquery.dynatree.min.js"></script>
+	<script type="text/javascript" src="js/hndjsse.js"></script>
+	<script type="text/javascript">
+	
+		var bSearchDataLoaded = false;
+		var sHelpIdToActivate = '';
+	
+		$(document).ready(function()
+		{
+			var sAnchorName = '';
+			try { sAnchorName = top.location.href.substring(top.location.href.lastIndexOf("#") + 1, top.location.href.length); }
+			catch(err) { sAnchorName = ''; }
+			var nSelectedTab = 0;
+			if (sAnchorName == '_index') nSelectedTab = 1
+			else if (sAnchorName == '_search') nSelectedTab = 2;			
+			$("#tabs").tabs({
+				selected: nSelectedTab,
+				select: function(event, ui) { HideKwPopup(); }
+			});
+			
+			// Toc
+			if ($("#tab-toc").length) {
+				$("#tab-toc").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#tab-keywords").length && $("#tab-keywords").dynatree && $("#tab-keywords").dynatree("getTree") && $("#tab-keywords").dynatree("getTree").activateKey)
+							$("#tab-keywords").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-toc").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				// Select the active help id
+				if (sHelpIdToActivate != '') $("#tab-toc").dynatree("getTree").activateKey(sHelpIdToActivate);
+			}
+			
+			// Keywords
+			
+			if ($("#tab-keywords").length) {
+				$("#tab-keywords").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onClick: function(node, event){
+						HideKwPopup();
+						if (node.data && node.data.click)
+						{
+							var aRefList = null;
+							eval('aRefList=' + node.data.click);
+							if (ShowKwPopup(node.li, aRefList))
+							{
+								if ($("#tab-toc") && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").activateKey)
+									$("#tab-toc").dynatree("getTree").activateKey(null);
+								if(node.data.href && node.data.href != '#'){
+									window.open(node.data.href, node.data.target);
+								}
+							}
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-keywords").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				}
+			
+			// Load search data
+			$.getScript("js/searchdata.js",	function() {
+				bSearchDataLoaded = true;
+			});
+		});
+		
+		$('body').click(function() {
+			HideKwPopup();
+		});
+		
+		function SelectTocItem(sHelpId)
+		{
+			if ($("#tab-toc").length && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").getNodeByKey) {
+				$("#tab-toc").dynatree("getTree").getNodeByKey(sHelpId).activateSilently();
+			}
+			else {
+				sHelpIdToActivate = sHelpId;
+			}
+		}
+		
+		function HideKwPopup()
+		{
+			if($("#popupMenu")) $("#popupMenu").remove();
+		}
+		
+		function ShowKwPopup(oSender, aLinks)
+		{
+			HideKwPopup();
+			if (!aLinks || !aLinks.length || aLinks.length == 0) return false
+			else if (aLinks.length == 1) return true
+			else
+			{
+				var oParentDiv = document.createElement("DIV");
+				oParentDiv.id = "popupMenu";
+				var oLink = null;
+				// Close button
+				oLink = document.createElement("SPAN");
+				oLink.className = "close-button";
+				oLink.innerHTML = "X";
+				oLink.href = "#";
+				oLink.onclick = HideKwPopup;
+				oParentDiv.appendChild(oLink);
+				// Items
+				for (var nCnt=0; nCnt<aLinks.length; nCnt++)
+				{
+					oLink = document.createElement("A");
+					oLink.innerHTML = aLinks[nCnt][0];
+					oLink.href = aLinks[nCnt][1];
+					oLink.target = "FrameMain";
+					oLink.onclick = HideKwPopup;
+					oParentDiv.appendChild(oLink);
+				}
+				document.body.appendChild(oParentDiv);
+				var pos = $(oSender).offset(); 
+				var height = $(oSender).height();
+				$(oParentDiv).css({
+					"left": (pos.left+20) + "px",
+					"top": (pos.top + height + 5) + "px"
+				});
+				$(oParentDiv).show();
+				return false;
+			}
+		}
+		
+		function PerformSearch()
+		{
+			sValue = $("#search_value").val();
+			$("#search_results").html('Searching...');
+			var oSearchEngine = new HndJsSe;
+			oSearchEngine.ParseInput(sValue);			
+			oSearchEngine.PerformSearch();
+			if (!oSearchEngine.aResults || !oSearchEngine.aResults.length)
+			{
+				$("#search_results").html('No results found.');
+			}
+			else
+			{
+				$("#search_results").html('<div id="search_results_content"></div>');
+				var oUl = $("#search_results_content").append("<ul id='lr'></ul>").find("ul");
+				for (var nCnt = 0; nCnt < oSearchEngine.aResults.length; nCnt++)
+				{
+					if (oSearchEngine.aResults[nCnt] < aTl.length)
+					{
+						oUl.append("<li><a href='" + aTl[oSearchEngine.aResults[nCnt]][0] + "?search=" + escape(sValue) + "' target='FrameMain'>" + unescape(aTl[oSearchEngine.aResults[nCnt]][1]) + "</a></li>");
+					}
+				}
+				// Tree
+				$("#search_results_content").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#search_results_content") && $("#search_results_content").dynatree && $("#search_results_content").dynatree("getTree") && $("#search_results_content").dynatree("getTree").activateKey)
+							$("#search_results_content").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#tab-toc">Contents</a></li>
+			<li><a href="#tab-keywords">Index</a></li>
+			<li><a href="#tab-search">Search</a></li>
+			</ul>
+		<div id="tab-toc">
+			<ul id="toc" class="">
+
+				<li class="folder" id="vod" data="">
+							<a
+							href="vod.html"
+							target="FrameMain">
+								&Uacute;vod</a>
+
+				<ul><li class="folder" id="vod5" data="">
+							<a
+							href="vod5.html"
+							target="FrameMain">
+								Vkl&aacute;d&aacute;n&iacute; informac&iacute; do aplikace</a>
+
+				<ul><li class="" id="Vkldninformacdoaplikace" data="">
+							<a
+							href="Vkldninformacdoaplikace.html"
+							target="FrameMain">
+								Datum</a>
+
+				</li><li class="" id="Datum" data="">
+							<a
+							href="Datum.html"
+							target="FrameMain">
+								&#268;&iacute;slo</a>
+
+				</li><li class="" id="slo" data="">
+							<a
+							href="slo.html"
+							target="FrameMain">
+								Text</a>
+
+				</li><li class="" id="Text" data="">
+							<a
+							href="Text.html"
+							target="FrameMain">
+								Radiobutton &#269;i ANO/NE</a>
+
+				</li></ul></li><li class="" id="vod7" data="">
+							<a
+							href="vod7.html"
+							target="FrameMain">
+								Menu</a>
+
+				</li></ul></li><li class="folder" id="vod6" data="">
+							<a
+							href="vod6.html"
+							target="FrameMain">
+								P&#345;ihl&aacute;šen&iacute; do aplikace</a>
+
+				<ul><li class="" id="Pihlenjinhouivatele" data="">
+							<a
+							href="Pihlenjinhouivatele.html"
+							target="FrameMain">
+								Info o p&#345;ihl&aacute;šen&eacute;m uživateli</a>
+
+				</li><li class="" id="Pihlendoaplikace1" data="">
+							<a
+							href="Pihlendoaplikace1.html"
+							target="FrameMain">
+								Prvn&iacute; p&#345;ihl&aacute;šen&iacute;</a>
+
+				</li><li class="" id="Pihlendoaplikace" data="">
+							<a
+							href="Pihlendoaplikace.html"
+							target="FrameMain">
+								P&#345;ihl&aacute;šen&iacute; jin&eacute;ho uživatele</a>
+
+				</li></ul></li><li class="folder" id="vod4" data="">
+							<a
+							href="vod4.html"
+							target="FrameMain">
+								Dashboard</a>
+
+				<ul><li class="" id="Dashboard" data="">
+							<a
+							href="Dashboard.html"
+							target="FrameMain">
+								Aktualizace dat</a>
+
+				</li><li class="" id="Dashboard4" data="">
+							<a
+							href="Dashboard4.html"
+							target="FrameMain">
+								Po&#269;ty neodeslan&yacute;ch z&aacute;pis&#367;</a>
+
+				</li><li class="" id="Dashboard5" data="">
+							<a
+							href="Dashboard5.html"
+							target="FrameMain">
+								Multijazy&#269;nost</a>
+
+				</li><li class="folder" id="Dashboard2" data="">
+							<a
+							href="Dashboard2.html"
+							target="FrameMain">
+								Grafy</a>
+
+				<ul><li class="" id="Grafy" data="">
+							<a
+							href="Grafy.html"
+							target="FrameMain">
+								P&#345;ehled spis&#367; ve spr&aacute;v&#283;</a>
+
+				</li><li class="" id="Grafy1" data="">
+							<a
+							href="Grafy1.html"
+							target="FrameMain">
+								P&#345;ehled n&aacute;všt&#283;v</a>
+
+				</li></ul></li><li class="" id="Dashboard3" data="">
+							<a
+							href="Dashboard3.html"
+							target="FrameMain">
+								Popis kampan&iacute;</a>
+
+				</li></ul></li><li class="folder" id="Dashboard1" data="">
+							<a
+							href="Dashboard1.html"
+							target="FrameMain">
+								Trasace</a>
+
+				<ul><li class="" id="Trasace" data="">
+							<a
+							href="Trasace.html"
+							target="FrameMain">
+								MENU Trasace</a>
+
+				</li><li class="" id="MENUTrasace" data="">
+							<a
+							href="MENUTrasace.html"
+							target="FrameMain">
+								Detail bodu kampan&#283;</a>
+
+				</li><li class="" id="MENUTrasace1" data="">
+							<a
+							href="MENUTrasace1.html"
+							target="FrameMain">
+								Optim&aacute;ln&iacute; nastaven&iacute; trasy</a>
+
+				</li><li class="" id="MENUTrasace2" data="">
+							<a
+							href="MENUTrasace2.html"
+							target="FrameMain">
+								Funkce v map&#283;</a>
+
+				</li><li class="" id="Optimlnnastaventrasy" data="">
+							<a
+							href="Optimlnnastaventrasy.html"
+							target="FrameMain">
+								Street view</a>
+
+				</li></ul></li><li class="folder" id="Trasace2" data="">
+							<a
+							href="Trasace2.html"
+							target="FrameMain">
+								Seznam spis&#367;</a>
+
+				<ul><li class="folder" id="Rozloenobrazovky1" data="">
+							<a
+							href="Rozloenobrazovky1.html"
+							target="FrameMain">
+								Podz&aacute;ložky</a>
+
+				<ul><li class="" id="Podzloky" data="">
+							<a
+							href="Podzloky.html"
+							target="FrameMain">
+								Detail spisu</a>
+
+				</li><li class="" id="Newtopic9" data="">
+							<a
+							href="Newtopic9.html"
+							target="FrameMain">
+								Došl&eacute; platby / dohoda o &uacute;hrad&#283;</a>
+
+				</li><li class="" id="Newtopic10" data="">
+							<a
+							href="Newtopic10.html"
+							target="FrameMain">
+								Kontaktn&iacute; &uacute;daje</a>
+
+				</li><li class="" id="Newtopic11" data="">
+							<a
+							href="Newtopic11.html"
+							target="FrameMain">
+								Dalš&iacute; osoby ve spise</a>
+
+				</li><li class="" id="Newtopic12" data="">
+							<a
+							href="Newtopic12.html"
+							target="FrameMain">
+								Dokumentace a fotodokumentace</a>
+
+				</li><li class="" id="Newtopic13" data="">
+							<a
+							href="Newtopic13.html"
+							target="FrameMain">
+								Historie spisu a Z&aacute;pisy z OSN</a>
+
+				</li><li class="" id="Newtopic14" data="">
+							<a
+							href="Newtopic14.html"
+							target="FrameMain">
+								Seznam spis&#367;</a>
+
+				</li><li class="" id="Newtopic15" data="">
+							<a
+							href="Newtopic15.html"
+							target="FrameMain">
+								Term&iacute;ny OSN</a>
+
+				</li><li class="" id="Newtopic16" data="">
+							<a
+							href="Newtopic16.html"
+							target="FrameMain">
+								Specifikace dluhu</a>
+
+				</li><li class="" id="Specifikacedluhu" data="">
+							<a
+							href="Specifikacedluhu.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka ke spisu</a>
+
+				</li></ul></li><li class="" id="Filtrovnvseznamu" data="">
+							<a
+							href="Filtrovnvseznamu.html"
+							target="FrameMain">
+								&#344;azen&iacute; v seznamu</a>
+
+				</li><li class="" id="Seznamspis1" data="">
+							<a
+							href="Seznamspis1.html"
+							target="FrameMain">
+								Filtrov&aacute;n&iacute; v seznamu</a>
+
+				</li><li class="" id="Filtrovnvseznamu1" data="">
+							<a
+							href="Filtrovnvseznamu1.html"
+							target="FrameMain">
+								Skr&yacute;t sloupce</a>
+
+				</li></ul></li><li class="folder" id="Seznamspis" data="">
+							<a
+							href="Seznamspis.html"
+							target="FrameMain">
+								Z&aacute;pis OSN</a>
+
+				<ul><li class="" id="Vloenfotografi" data="">
+							<a
+							href="Vloenfotografi.html"
+							target="FrameMain">
+								V&yacute;b&#283;ry proces&#367;</a>
+
+				</li><li class="folder" id="Vbradresydlunkaprozpis" data="">
+							<a
+							href="Vbradresydlunkaprozpis.html"
+							target="FrameMain">
+								Prvn&iacute; obrazovka z&aacute;pisu</a>
+
+				<ul><li class="" id="Prvnobrazovkazpisu" data="">
+							<a
+							href="Prvnobrazovkazpisu.html"
+							target="FrameMain">
+								Objekty obrazovky</a>
+
+				</li><li class="" id="Objektyobrazovky" data="">
+							<a
+							href="Objektyobrazovky.html"
+							target="FrameMain">
+								Vložen&iacute; fotografi&iacute;</a>
+
+				</li><li class="" id="Objektyobrazovky1" data="">
+							<a
+							href="Objektyobrazovky1.html"
+							target="FrameMain">
+								Maz&aacute;n&iacute; fotografi&iacute;</a>
+
+				</li></ul></li><li class="folder" id="Prvnobrazovkazpisu1" data="">
+							<a
+							href="Prvnobrazovkazpisu1.html"
+							target="FrameMain">
+								Informace o dlužn&iacute;kovi</a>
+
+				<ul><li class="folder" id="Informaceodlunkovi" data="">
+							<a
+							href="Informaceodlunkovi.html"
+							target="FrameMain">
+								Kontakty</a>
+
+				<ul><li class="" id="Kontakty" data="">
+							<a
+							href="Kontakty.html"
+							target="FrameMain">
+								Kontakt na zam&#283;stnavatele</a>
+
+				</li><li class="" id="Kontakty2" data="">
+							<a
+							href="Kontakty2.html"
+							target="FrameMain">
+								Kontakt na dlužn&iacute;ka</a>
+
+				</li><li class="" id="Kontakty1" data="">
+							<a
+							href="Kontakty1.html"
+							target="FrameMain">
+								Kontakt jin&aacute; osoba ve spise</a>
+
+				</li><li class="" id="Kontaktjinosobavespise1" data="">
+							<a
+							href="Kontaktjinosobavespise1.html"
+							target="FrameMain">
+								Kontakt jin&aacute; osoba ve spise</a>
+
+				</li></ul></li><li class="" id="Informaceodlunkovi1" data="">
+							<a
+							href="Informaceodlunkovi1.html"
+							target="FrameMain">
+								Majetek</a>
+
+				</li><li class="" id="Informaceodlunkovi2" data="">
+							<a
+							href="Informaceodlunkovi2.html"
+							target="FrameMain">
+								Finance</a>
+
+				</li><li class="" id="Kontaktjinosobavespise" data="">
+							<a
+							href="Kontaktjinosobavespise.html"
+							target="FrameMain">
+								Soubor</a>
+
+				</li></ul></li></ul></li></ul>
+		</div>
+		
+		<div id="tab-keywords">
+			<ul id="keywords">
+
+				</ul>
+		</div>
+		
+		<div id="tab-search">
+			<form onsubmit="PerformSearch(); return false;">
+				<label for="search_value">Search:</label>
+				<input id="search_value" name="search_value"></input>
+				<input type="submit" value="Search"/>
+			</form>
+			<div id="search_results"></div>
+		</div>
+		
+		</div>
+    
+</body>
+
+</html>
+

@@ -1,0 +1,1588 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+	<title>EOS TRACE- Table of Contents</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Professional Edition 3.9.1.648">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/silver-theme/jquery-ui-1.8.12.custom.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/dynatree/chm/ui.dynatree.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+    <link type="text/css" rel="stylesheet" media="all" href="css/toc.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#tabs .ui-widget-header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="js/jquery.dynatree.min.js"></script>
+	<script type="text/javascript" src="js/hndjsse.js"></script>
+	<script type="text/javascript">
+	
+		var bSearchDataLoaded = false;
+		var sHelpIdToActivate = '';
+	
+		$(document).ready(function()
+		{
+			var sAnchorName = '';
+			try { sAnchorName = top.location.href.substring(top.location.href.lastIndexOf("#") + 1, top.location.href.length); }
+			catch(err) { sAnchorName = ''; }
+			var nSelectedTab = 0;
+			if (sAnchorName == '_index') nSelectedTab = 1
+			else if (sAnchorName == '_search') nSelectedTab = 2;			
+			$("#tabs").tabs({
+				selected: nSelectedTab,
+				select: function(event, ui) { HideKwPopup(); }
+			});
+			
+			// Toc
+			if ($("#tab-toc").length) {
+				$("#tab-toc").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#tab-keywords").length && $("#tab-keywords").dynatree && $("#tab-keywords").dynatree("getTree") && $("#tab-keywords").dynatree("getTree").activateKey)
+							$("#tab-keywords").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-toc").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				// Select the active help id
+				if (sHelpIdToActivate != '') $("#tab-toc").dynatree("getTree").activateKey(sHelpIdToActivate);
+			}
+			
+			// Keywords
+			
+			if ($("#tab-keywords").length) {
+				$("#tab-keywords").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onClick: function(node, event){
+						HideKwPopup();
+						if (node.data && node.data.click)
+						{
+							var aRefList = null;
+							eval('aRefList=' + node.data.click);
+							if (ShowKwPopup(node.li, aRefList))
+							{
+								if ($("#tab-toc") && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").activateKey)
+									$("#tab-toc").dynatree("getTree").activateKey(null);
+								if(node.data.href && node.data.href != '#'){
+									window.open(node.data.href, node.data.target);
+								}
+							}
+						}
+					}
+				});
+				// Expand all nodes if required
+				$("#tab-keywords").dynatree("getRoot").visit(function(node){
+						node.expand(true);
+					});
+				}
+			
+			// Load search data
+			$.getScript("js/searchdata.js",	function() {
+				bSearchDataLoaded = true;
+			});
+		});
+		
+		$('body').click(function() {
+			HideKwPopup();
+		});
+		
+		function SelectTocItem(sHelpId)
+		{
+			if ($("#tab-toc").length && $("#tab-toc").dynatree && $("#tab-toc").dynatree("getTree") && $("#tab-toc").dynatree("getTree").getNodeByKey) {
+				$("#tab-toc").dynatree("getTree").getNodeByKey(sHelpId).activateSilently();
+			}
+			else {
+				sHelpIdToActivate = sHelpId;
+			}
+		}
+		
+		function HideKwPopup()
+		{
+			if($("#popupMenu")) $("#popupMenu").remove();
+		}
+		
+		function ShowKwPopup(oSender, aLinks)
+		{
+			HideKwPopup();
+			if (!aLinks || !aLinks.length || aLinks.length == 0) return false
+			else if (aLinks.length == 1) return true
+			else
+			{
+				var oParentDiv = document.createElement("DIV");
+				oParentDiv.id = "popupMenu";
+				var oLink = null;
+				// Close button
+				oLink = document.createElement("SPAN");
+				oLink.className = "close-button";
+				oLink.innerHTML = "X";
+				oLink.href = "#";
+				oLink.onclick = HideKwPopup;
+				oParentDiv.appendChild(oLink);
+				// Items
+				for (var nCnt=0; nCnt<aLinks.length; nCnt++)
+				{
+					oLink = document.createElement("A");
+					oLink.innerHTML = aLinks[nCnt][0];
+					oLink.href = aLinks[nCnt][1];
+					oLink.target = "FrameMain";
+					oLink.onclick = HideKwPopup;
+					oParentDiv.appendChild(oLink);
+				}
+				document.body.appendChild(oParentDiv);
+				var pos = $(oSender).offset(); 
+				var height = $(oSender).height();
+				$(oParentDiv).css({
+					"left": (pos.left+20) + "px",
+					"top": (pos.top + height + 5) + "px"
+				});
+				$(oParentDiv).show();
+				return false;
+			}
+		}
+		
+		function PerformSearch()
+		{
+			sValue = $("#search_value").val();
+			$("#search_results").html('Searching...');
+			var oSearchEngine = new HndJsSe;
+			oSearchEngine.ParseInput(sValue);			
+			oSearchEngine.PerformSearch();
+			if (!oSearchEngine.aResults || !oSearchEngine.aResults.length)
+			{
+				$("#search_results").html('No results found.');
+			}
+			else
+			{
+				$("#search_results").html('<div id="search_results_content"></div>');
+				var oUl = $("#search_results_content").append("<ul id='lr'></ul>").find("ul");
+				for (var nCnt = 0; nCnt < oSearchEngine.aResults.length; nCnt++)
+				{
+					if (oSearchEngine.aResults[nCnt] < aTl.length)
+					{
+						oUl.append("<li><a href='" + aTl[oSearchEngine.aResults[nCnt]][0] + "?search=" + escape(sValue) + "' target='FrameMain'>" + unescape(aTl[oSearchEngine.aResults[nCnt]][1]) + "</a></li>");
+					}
+				}
+				// Tree
+				$("#search_results_content").dynatree({
+					clickFolderMode: 1,
+					debugLevel: 0,
+					imagePath: 'css/dynatree/chm/',
+					onActivate: function(node){
+						if ($("#search_results_content") && $("#search_results_content").dynatree && $("#search_results_content").dynatree("getTree") && $("#search_results_content").dynatree("getTree").activateKey)
+							$("#search_results_content").dynatree("getTree").activateKey(null);
+						if(node.data.href && node.data.href != '#'){
+							window.open(node.data.href, node.data.target);
+						}
+					}
+				});
+			}
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="tabs">
+		<ul>
+			<li><a href="#tab-toc">Contents</a></li>
+			<li><a href="#tab-keywords">Index</a></li>
+			<li><a href="#tab-search">Search</a></li>
+			</ul>
+		<div id="tab-toc">
+			<ul id="toc" class="">
+
+				<li class="folder" id="vod" data="">
+							<a
+							href="vod.html"
+							target="FrameMain">
+								&Uacute;vod</a>
+
+				<ul><li class="" id="Seznamzkratekapojm1" data="">
+							<a
+							href="Seznamzkratekapojm1.html"
+							target="FrameMain">
+								Seznam zkratek  a  pojm&#367;</a>
+
+				</li><li class="folder" id="Rozloenobrazovky" data="">
+							<a
+							href="Rozloenobrazovky.html"
+							target="FrameMain">
+								Rozložen&iacute; obrazovky</a>
+
+				<ul><li class="" id="Hlavnmenu" data="">
+							<a
+							href="Hlavnmenu.html"
+							target="FrameMain">
+								Hlavn&iacute; menu</a>
+
+				</li><li class="folder" id="Technickmenu" data="">
+							<a
+							href="Technickmenu.html"
+							target="FrameMain">
+								Technick&eacute; menu</a>
+
+				<ul><li class="" id="Vyhlednspis" data="">
+							<a
+							href="Vyhlednspis.html"
+							target="FrameMain">
+								Vyhled&aacute;n&iacute; spis&#367;</a>
+
+				</li><li class="" id="Nastaven" data="">
+							<a
+							href="Nastaven.html"
+							target="FrameMain">
+								Nastaven&iacute;</a>
+
+				</li><li class="" id="Help" data="">
+							<a
+							href="Help.html"
+							target="FrameMain">
+								Help</a>
+
+				</li><li class="folder" id="Odhlenapihlen" data="">
+							<a
+							href="Odhlenapihlen.html"
+							target="FrameMain">
+								Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;</a>
+
+				<ul><li class="" id="Zmnahesla" data="">
+							<a
+							href="Zmnahesla.html"
+							target="FrameMain">
+								Zm&#283;na hesla</a>
+
+				</li></ul></li><li class="" id="Technickmenu1" data="">
+							<a
+							href="Technickmenu1.html"
+							target="FrameMain">
+								Multijazy&#269;nost</a>
+
+				</li></ul></li><li class="folder" id="Menuseznamu" data="">
+							<a
+							href="Menuseznamu.html"
+							target="FrameMain">
+								Menu seznamu</a>
+
+				<ul><li class="folder" id="Ovldnseznamu" data="">
+							<a
+							href="Ovldnseznamu.html"
+							target="FrameMain">
+								Ovl&aacute;d&aacute;n&iacute; seznamu</a>
+
+				<ul><li class="" id="Pesouvnsloupc" data="">
+							<a
+							href="Pesouvnsloupc.html"
+							target="FrameMain">
+								P&#345;esouv&aacute;n&iacute; sloupc&#367;</a>
+
+				</li><li class="" id="Tdndat" data="">
+							<a
+							href="Tdndat.html"
+							target="FrameMain">
+								T&#345;&iacute;d&#283;n&iacute; dat</a>
+
+				</li><li class="" id="Filtrovndat" data="">
+							<a
+							href="Filtrovndat.html"
+							target="FrameMain">
+								Filtrov&aacute;n&iacute; dat</a>
+
+				</li><li class="" id="Skrytzobrazensloupc" data="">
+							<a
+							href="Skrytzobrazensloupc.html"
+							target="FrameMain">
+								Skryt&iacute; / zobrazen&iacute; sloupc&#367;</a>
+
+				</li><li class="" id="Zruennastaven" data="">
+							<a
+							href="Zruennastaven.html"
+							target="FrameMain">
+								Zrušen&iacute; nastaven&iacute;</a>
+
+				</li><li class="" id="Rozenseznamu" data="">
+							<a
+							href="Rozenseznamu.html"
+							target="FrameMain">
+								Rozš&iacute;&#345;en&iacute; seznamu</a>
+
+				</li><li class="" id="Rozenseznamu1" data="">
+							<a
+							href="Rozenseznamu1.html"
+							target="FrameMain">
+								V&yacute;b&#283;r spis&#367;</a>
+
+				</li></ul></li></ul></li><li class="folder" id="Detailvybranhospisu" data="">
+							<a
+							href="Detailvybranhospisu.html"
+							target="FrameMain">
+								Detail vybran&eacute;ho spisu</a>
+
+				<ul><li class="" id="Ovldnpodzloek1" data="">
+							<a
+							href="Ovldnpodzloek1.html"
+							target="FrameMain">
+								Detail dlužn&iacute;ka</a>
+
+				</li><li class="" id="Ovldnpodzloek" data="">
+							<a
+							href="Ovldnpodzloek.html"
+							target="FrameMain">
+								Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek</a>
+
+				</li><li class="folder" id="Detailvybranhospisu1" data="">
+							<a
+							href="Detailvybranhospisu1.html"
+							target="FrameMain">
+								P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v</a>
+
+				<ul><li class="" id="PehledUrgencpipomnekazprv" data="">
+							<a
+							href="PehledUrgencpipomnekazprv.html"
+							target="FrameMain">
+								Seznam urgenc&iacute;</a>
+
+				</li></ul></li></ul></li><li class="" id="Akntlatka" data="">
+							<a
+							href="Akntlatka.html"
+							target="FrameMain">
+								Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				</li><li class="" id="Stavyspis" data="">
+							<a
+							href="Stavyspis.html"
+							target="FrameMain">
+								P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek</a>
+
+				</li></ul></li><li class="folder" id="Rozloenobrazovky1" data="">
+							<a
+							href="Rozloenobrazovky1.html"
+							target="FrameMain">
+								Podz&aacute;ložky</a>
+
+				<ul><li class="" id="Podzloky3" data="">
+							<a
+							href="Podzloky3.html"
+							target="FrameMain">
+								SEZNAM použit&iacute; podz&aacute;ložek</a>
+
+				</li><li class="" id="Podzloky" data="">
+							<a
+							href="Podzloky.html"
+							target="FrameMain">
+								Detail spisu</a>
+
+				</li><li class="" id="Newtopic9" data="">
+							<a
+							href="Newtopic9.html"
+							target="FrameMain">
+								Došl&eacute; platby / dohoda o &uacute;hrad&#283;</a>
+
+				</li><li class="" id="Newtopic10" data="">
+							<a
+							href="Newtopic10.html"
+							target="FrameMain">
+								Kontaktn&iacute; &uacute;daje</a>
+
+				</li><li class="" id="Newtopic11" data="">
+							<a
+							href="Newtopic11.html"
+							target="FrameMain">
+								Dalš&iacute; osoby ve spise</a>
+
+				</li><li class="" id="Newtopic12" data="">
+							<a
+							href="Newtopic12.html"
+							target="FrameMain">
+								Dokumentace a fotodokumentace</a>
+
+				</li><li class="" id="Newtopic13" data="">
+							<a
+							href="Newtopic13.html"
+							target="FrameMain">
+								Historie spisu a Z&aacute;pisy z OSN</a>
+
+				</li><li class="" id="Newtopic14" data="">
+							<a
+							href="Newtopic14.html"
+							target="FrameMain">
+								Seznam spis&#367;</a>
+
+				</li><li class="" id="Newtopic15" data="">
+							<a
+							href="Newtopic15.html"
+							target="FrameMain">
+								Term&iacute;ny OSN</a>
+
+				</li><li class="" id="Newtopic16" data="">
+							<a
+							href="Newtopic16.html"
+							target="FrameMain">
+								Specifikace dluhu</a>
+
+				</li></ul></li><li class="" id="Podzloky1" data="">
+							<a
+							href="Podzloky1.html"
+							target="FrameMain">
+								Stavy spis&#367;</a>
+
+				</li><li class="" id="Menuseznamu1" data="">
+							<a
+							href="Menuseznamu1.html"
+							target="FrameMain">
+								Barevn&eacute; ozna&#269;en&iacute; spis&#367;</a>
+
+				</li></ul></li><li class="folder" id="vod2" data="">
+							<a
+							href="vod2.html"
+							target="FrameMain">
+								Dashboard</a>
+
+				<ul><li class="" id="Dashboard" data="">
+							<a
+							href="Dashboard.html"
+							target="FrameMain">
+								P&#345;esouv&aacute;n&iacute; tabulek</a>
+
+				</li><li class="" id="Dashboard2" data="">
+							<a
+							href="Dashboard2.html"
+							target="FrameMain">
+								Tabulky s grafem</a>
+
+				</li><li class="" id="Tabulkasgrafem" data="">
+							<a
+							href="Tabulkasgrafem.html"
+							target="FrameMain">
+								Tabulka upom&iacute;nek</a>
+
+				</li></ul></li><li class="folder" id="Novspis" data="">
+							<a
+							href="Novspis.html"
+							target="FrameMain">
+								Z&aacute;ložka NOV&Eacute;</a>
+
+				<ul><li class="folder" id="ZlokaNOV" data="">
+							<a
+							href="ZlokaNOV.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="DefinicedataOSN" data="">
+							<a
+							href="DefinicedataOSN.html"
+							target="FrameMain">
+								Napl&aacute;novat datum OSN</a>
+
+				</li><li class="" id="Pijetspisu" data="">
+							<a
+							href="Pijetspisu.html"
+							target="FrameMain">
+								P&#345;ijet&iacute; spisu</a>
+
+				</li><li class="" id="Odmtnutspisu" data="">
+							<a
+							href="Odmtnutspisu.html"
+							target="FrameMain">
+								Odm&iacute;tnut&iacute; spisu</a>
+
+				</li></ul></li><li class="folder" id="KontrolaGPSsouadnic" data="">
+							<a
+							href="KontrolaGPSsouadnic.html"
+							target="FrameMain">
+								Kontrola GPS sou&#345;adnic</a>
+
+				<ul><li class="" id="KontrolaGPSsouadnic2" data="">
+							<a
+							href="KontrolaGPSsouadnic2.html"
+							target="FrameMain">
+								Ru&#269;n&iacute; kontrola GPS</a>
+
+				</li><li class="" id="KontrolaGPSsouadnic1" data="">
+							<a
+							href="KontrolaGPSsouadnic1.html"
+							target="FrameMain">
+								Hromadn&aacute; kontrola GPS</a>
+
+				</li><li class="" id="Ovldnmapy" data="">
+							<a
+							href="Ovldnmapy.html"
+							target="FrameMain">
+								Ovl&aacute;d&aacute;n&iacute; mapy</a>
+
+				</li><li class="" id="HromadnkontrolaGPS" data="">
+							<a
+							href="HromadnkontrolaGPS.html"
+							target="FrameMain">
+								Seznam chybov&yacute;ch zpr&aacute;v</a>
+
+				</li></ul></li><li class="" id="KontrolaGPSsouadnic3" data="">
+							<a
+							href="KontrolaGPSsouadnic3.html"
+							target="FrameMain">
+								Ru&#269;n&iacute; nastaven&iacute; data OSN</a>
+
+				</li><li class="" id="Upozornn" data="">
+							<a
+							href="Upozornn.html"
+							target="FrameMain">
+								V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;</a>
+
+				</li></ul></li><li class="folder" id="Novspis1" data="">
+							<a
+							href="Novspis1.html"
+							target="FrameMain">
+								Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY</a>
+
+				<ul><li class="folder" id="ZlokaOSOBNNVTVY" data="">
+							<a
+							href="ZlokaOSOBNNVTVY.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="Akntlatka1" data="">
+							<a
+							href="Akntlatka1.html"
+							target="FrameMain">
+								Napl&aacute;novat datum OSN</a>
+
+				</li><li class="" id="NaplnovatdatumOSN" data="">
+							<a
+							href="NaplnovatdatumOSN.html"
+							target="FrameMain">
+								Kontakt s dlužn&iacute;kem</a>
+
+				</li><li class="folder" id="Newtopic" data="">
+							<a
+							href="Newtopic.html"
+							target="FrameMain">
+								Z&aacute;pis z OSN</a>
+
+				<ul><li class="" id="ZpiszOSN" data="">
+							<a
+							href="ZpiszOSN.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; z&aacute;pisu</a>
+
+				</li><li class="" id="ZpiszOSN1" data="">
+							<a
+							href="ZpiszOSN1.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; a validace adres</a>
+
+				</li></ul></li><li class="folder" id="Newtopic1" data="">
+							<a
+							href="Newtopic1.html"
+							target="FrameMain">
+								Dohledan&eacute; informace</a>
+
+				<ul><li class="" id="Dohledaninformace" data="">
+							<a
+							href="Dohledaninformace.html"
+							target="FrameMain">
+								Vložen&iacute; nov&eacute;ho kontaktu DL</a>
+
+				</li><li class="" id="Dohledaninformace2" data="">
+							<a
+							href="Dohledaninformace2.html"
+							target="FrameMain">
+								Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby</a>
+
+				</li><li class="" id="Dohledaninformace3" data="">
+							<a
+							href="Dohledaninformace3.html"
+							target="FrameMain">
+								Vložen&iacute; nov&eacute;ho kontaktu mimo spis</a>
+
+				</li></ul></li><li class="" id="Newtopic2" data="">
+							<a
+							href="Newtopic2.html"
+							target="FrameMain">
+								P&#345;esun ke zpracov&aacute;n&iacute;</a>
+
+				</li><li class="" id="Newtopic3" data="">
+							<a
+							href="Newtopic3.html"
+							target="FrameMain">
+								Uzav&#345;&iacute;t spis</a>
+
+				</li><li class="" id="Newtopic4" data="">
+							<a
+							href="Newtopic4.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka ke spisu</a>
+
+				</li><li class="" id="Newtopic5" data="">
+							<a
+							href="Newtopic5.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka k dlužn&iacute;kovi</a>
+
+				</li><li class="" id="Newtopic6" data="">
+							<a
+							href="Newtopic6.html"
+							target="FrameMain">
+								P&#345;ehled p&#345;ipom&iacute;nek</a>
+
+				</li></ul></li></ul></li><li class="folder" id="Podzloky2" data="">
+							<a
+							href="Podzloky2.html"
+							target="FrameMain">
+								Z&aacute;ložka DOHODY/SK</a>
+
+				<ul><li class="folder" id="ZlokaDOHODYSK" data="">
+							<a
+							href="ZlokaDOHODYSK.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="NaplnovatdatumOSN1" data="">
+							<a
+							href="NaplnovatdatumOSN1.html"
+							target="FrameMain">
+								Kontakt s dlužn&iacute;kem</a>
+
+				</li><li class="" id="Akntlatka2" data="">
+							<a
+							href="Akntlatka2.html"
+							target="FrameMain">
+								Zrušit SK</a>
+
+				</li><li class="folder" id="Newtopic24" data="">
+							<a
+							href="Newtopic24.html"
+							target="FrameMain">
+								Z&aacute;pis z OSN</a>
+
+				<ul><li class="" id="ZpiszOSN2" data="">
+							<a
+							href="ZpiszOSN2.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; z&aacute;pisu</a>
+
+				</li><li class="" id="ZpiszOSN3" data="">
+							<a
+							href="ZpiszOSN3.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; a validace adres</a>
+
+				</li></ul></li><li class="" id="Newtopic18" data="">
+							<a
+							href="Newtopic18.html"
+							target="FrameMain">
+								Dohledan&eacute; informace</a>
+
+				</li><li class="" id="Akntlatka3" data="">
+							<a
+							href="Akntlatka3.html"
+							target="FrameMain">
+								Hotovostn&iacute; v&yacute;b&#283;r</a>
+
+				</li><li class="" id="Akntlatka4" data="">
+							<a
+							href="Akntlatka4.html"
+							target="FrameMain">
+								P&#345;esun k OSN</a>
+
+				</li><li class="" id="Newtopic19" data="">
+							<a
+							href="Newtopic19.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka ke spisu</a>
+
+				</li><li class="" id="Newtopic20" data="">
+							<a
+							href="Newtopic20.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka k dlužn&iacute;kovi</a>
+
+				</li><li class="" id="Newtopic21" data="">
+							<a
+							href="Newtopic21.html"
+							target="FrameMain">
+								P&#345;ehled p&#345;ipom&iacute;nek</a>
+
+				</li></ul></li></ul></li><li class="folder" id="ZlokaDOHODYSK2" data="">
+							<a
+							href="ZlokaDOHODYSK2.html"
+							target="FrameMain">
+								Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;</a>
+
+				<ul><li class="folder" id="ZlokaKEZPRACOVN1" data="">
+							<a
+							href="ZlokaKEZPRACOVN1.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="NaplnovatdatumOSN2" data="">
+							<a
+							href="NaplnovatdatumOSN2.html"
+							target="FrameMain">
+								Kontakt s dlužn&iacute;kem</a>
+
+				</li><li class="folder" id="Newtopic7" data="">
+							<a
+							href="Newtopic7.html"
+							target="FrameMain">
+								Z&aacute;pis z OSN</a>
+
+				<ul><li class="" id="ZpiszOSN4" data="">
+							<a
+							href="ZpiszOSN4.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; z&aacute;pisu</a>
+
+				</li><li class="" id="ZpiszOSN5" data="">
+							<a
+							href="ZpiszOSN5.html"
+							target="FrameMain">
+								Ukl&aacute;d&aacute;n&iacute; a validace adres</a>
+
+				</li></ul></li><li class="" id="Newtopic17" data="">
+							<a
+							href="Newtopic17.html"
+							target="FrameMain">
+								Dohledan&eacute; informace</a>
+
+				</li><li class="" id="Akntlatka5" data="">
+							<a
+							href="Akntlatka5.html"
+							target="FrameMain">
+								P&#345;esun k OSN</a>
+
+				</li><li class="" id="Newtopic8" data="">
+							<a
+							href="Newtopic8.html"
+							target="FrameMain">
+								Uzav&#345;&iacute;t spis</a>
+
+				</li><li class="" id="Newtopic22" data="">
+							<a
+							href="Newtopic22.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka ke spisu</a>
+
+				</li><li class="" id="Newtopic23" data="">
+							<a
+							href="Newtopic23.html"
+							target="FrameMain">
+								P&#345;ipom&iacute;nka k dlužn&iacute;kovi</a>
+
+				</li><li class="" id="Newtopic25" data="">
+							<a
+							href="Newtopic25.html"
+							target="FrameMain">
+								P&#345;ehled p&#345;ipom&iacute;nek</a>
+
+				</li></ul></li></ul></li><li class="folder" id="ZlokaKEZPRACOVN" data="">
+							<a
+							href="ZlokaKEZPRACOVN.html"
+							target="FrameMain">
+								Z&aacute;ložka UKON&#268;EN&Eacute;</a>
+
+				<ul><li class="folder" id="ZlokaUKONEN" data="">
+							<a
+							href="ZlokaUKONEN.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="Akntlatka6" data="">
+							<a
+							href="Akntlatka6.html"
+							target="FrameMain">
+								Ž&aacute;dost o vr&aacute;cen&iacute; spisu</a>
+
+				</li></ul></li></ul></li><li class="folder" id="vod1" data="">
+							<a
+							href="vod1.html"
+							target="FrameMain">
+								Z&aacute;ložka POKLADNA</a>
+
+				<ul><li class="folder" id="Pokladna" data="">
+							<a
+							href="Pokladna.html"
+							target="FrameMain">
+								Pokladn&iacute; den&iacute;k</a>
+
+				<ul><li class="" id="Pokladndenk" data="">
+							<a
+							href="Pokladndenk.html"
+							target="FrameMain">
+								Hromadn&yacute; p&#345;&iacute;kaz</a>
+
+				</li><li class="" id="Pokladndenk1" data="">
+							<a
+							href="Pokladndenk1.html"
+							target="FrameMain">
+								Tabulka sou&#269;t&#367;</a>
+
+				</li></ul></li><li class="folder" id="Pokladna1" data="">
+							<a
+							href="Pokladna1.html"
+							target="FrameMain">
+								Vy&uacute;&#269;tov&aacute;n&iacute;</a>
+
+				<ul><li class="" id="ZlokaPOKLADNA" data="">
+							<a
+							href="ZlokaPOKLADNA.html"
+							target="FrameMain">
+								P&#345;&iacute;loha faktury</a>
+
+				</li></ul></li></ul></li><li class="folder" id="EOSTRACE1" data="">
+							<a
+							href="EOSTRACE1.html"
+							target="FrameMain">
+								Z&aacute;ložka UPOZORN&#282;N&Iacute;</a>
+
+				<ul><li class="" id="ZlokaUPOZORNN" data="">
+							<a
+							href="ZlokaUPOZORNN.html"
+							target="FrameMain">
+								Zobrazen&iacute; z&aacute;znam&#367;</a>
+
+				</li><li class="folder" id="ZlokaUPOZORNN1" data="">
+							<a
+							href="ZlokaUPOZORNN1.html"
+							target="FrameMain">
+								Ak&#269;n&iacute; tla&#269;&iacute;tka</a>
+
+				<ul><li class="" id="Newtopic26" data="">
+							<a
+							href="Newtopic26.html"
+							target="FrameMain">
+								Nov&aacute; upom&iacute;nka na spis</a>
+
+				</li><li class="" id="Newtopic27" data="">
+							<a
+							href="Newtopic27.html"
+							target="FrameMain">
+								Nov&aacute; upom&iacute;nka k DL</a>
+
+				</li></ul></li></ul></li><li class="folder" id="ZlokaDOHODYSK1" data="">
+							<a
+							href="ZlokaDOHODYSK1.html"
+							target="FrameMain">
+								Z&aacute;ložka TRASACE</a>
+
+				<ul><li class="folder" id="Trasace" data="">
+							<a
+							href="Trasace.html"
+							target="FrameMain">
+								Seznam adres</a>
+
+				<ul><li class="" id="Seznamadres1" data="">
+							<a
+							href="Seznamadres1.html"
+							target="FrameMain">
+								Barevn&eacute; ozna&#269;en&iacute;</a>
+
+				</li><li class="" id="Seznamadres2" data="">
+							<a
+							href="Seznamadres2.html"
+							target="FrameMain">
+								Filtry</a>
+
+				</li></ul></li><li class="folder" id="Seznamadres" data="">
+							<a
+							href="Seznamadres.html"
+							target="FrameMain">
+								Seznam kampan&iacute;</a>
+
+				<ul><li class="" id="Seznamkampan1" data="">
+							<a
+							href="Seznamkampan1.html"
+							target="FrameMain">
+								Maximalizace okna</a>
+
+				</li><li class="" id="Maximalizaceokna" data="">
+							<a
+							href="Maximalizaceokna.html"
+							target="FrameMain">
+								Minimalizace oken</a>
+
+				</li></ul></li><li class="folder" id="Seznamkampan" data="">
+							<a
+							href="Seznamkampan.html"
+							target="FrameMain">
+								Seznam bod&#367; kampan&#283;</a>
+
+				<ul><li class="" id="Seznambodkampan" data="">
+							<a
+							href="Seznambodkampan.html"
+							target="FrameMain">
+								Po&#269;et bod&#367; v kampani</a>
+
+				</li></ul></li><li class="" id="Trasace1" data="">
+							<a
+							href="Trasace1.html"
+							target="FrameMain">
+								Generov&aacute;n&iacute; trasy</a>
+
+				</li><li class="" id="Seznamkampan2" data="">
+							<a
+							href="Seznamkampan2.html"
+							target="FrameMain">
+								Popis trasy</a>
+
+				</li><li class="" id="Seznamadres3" data="">
+							<a
+							href="Seznamadres3.html"
+							target="FrameMain">
+								Body okolo trasy</a>
+
+				</li><li class="" id="Bodyokolotrasy" data="">
+							<a
+							href="Bodyokolotrasy.html"
+							target="FrameMain">
+								Informace ke spisu</a>
+
+				</li><li class="" id="Informacekespisu" data="">
+							<a
+							href="Informacekespisu.html"
+							target="FrameMain">
+								Vlastn&iacute; adresy</a>
+
+				</li><li class="" id="Vlastnadresy" data="">
+							<a
+							href="Vlastnadresy.html"
+							target="FrameMain">
+								Propadl&eacute; kampan&#283;</a>
+
+				</li><li class="" id="ZlokaTRASACE" data="">
+							<a
+							href="ZlokaTRASACE.html"
+							target="FrameMain">
+								Hromadn&yacute; tisk</a>
+
+				</li><li class="" id="ZlokaTRASACE1" data="">
+							<a
+							href="ZlokaTRASACE1.html"
+							target="FrameMain">
+								Proklik na spis</a>
+
+				</li></ul></li></ul>
+		</div>
+		
+		<div id="tab-keywords">
+			<ul id="keywords">
+
+				<li class="file" data="click:'[[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\'],[\'&Uacute;vod\',\'vod.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\']]'">
+							<a
+								href="Akntlatka.html"
+								target="FrameMain"
+								onClick="[['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html'],['&Uacute;vod','vod.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html']]"
+								>
+								Akční tlačítka</a>
+
+				</li><li class="file" data="click:'[[\'Barevn&eacute; ozna&#269;en&iacute;\',\'Seznamadres1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\']]'">
+							<a
+								href="Seznamadres1.html"
+								target="FrameMain"
+								onClick="[['Barevn&eacute; ozna&#269;en&iacute;','Seznamadres1.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html']]"
+								>
+								Barva</a>
+
+				</li><li class="file" data="click:'[[\'P&#345;esouv&aacute;n&iacute; sloupc&#367;\',\'Pesouvnsloupc.html\'],[\'\',\'.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\']]'">
+							<a
+								href="Pesouvnsloupc.html"
+								target="FrameMain"
+								onClick="[['P&#345;esouv&aacute;n&iacute; sloupc&#367;','Pesouvnsloupc.html'],['','.html'],['Term&iacute;ny OSN','Newtopic15.html']]"
+								>
+								Datumu předání</a>
+
+				</li><li class="file" data="click:'[[\'Filtrov&aacute;n&iacute; dat\',\'Filtrovndat.html\'],[\'\',\'.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\']]'">
+							<a
+								href="Filtrovndat.html"
+								target="FrameMain"
+								onClick="[['Filtrov&aacute;n&iacute; dat','Filtrovndat.html'],['','.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Stavy spis&#367;','Podzloky1.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html']]"
+								>
+								Definice</a>
+
+				</li><li class="file" data="click:'[[\'Detail vybran&eacute;ho spisu\',\'Detailvybranhospisu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\']]'">
+							<a
+								href="Detailvybranhospisu.html"
+								target="FrameMain"
+								onClick="[['Detail vybran&eacute;ho spisu','Detailvybranhospisu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html']]"
+								>
+								Detail dlužníka</a>
+
+				</li><li class="file" data="click:'[[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\']]'">
+							<a
+								href="Rozloenobrazovky.html"
+								target="FrameMain"
+								onClick="[['Rozložen&iacute; obrazovky','Rozloenobrazovky.html']]"
+								>
+								Detail vybraného spisu</a>
+
+				</li><li class="file" data="click:'[[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\']]'">
+							<a
+								href="Menuseznamu.html"
+								target="FrameMain"
+								onClick="[['Menu seznamu','Menuseznamu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html']]"
+								>
+								Dlužník</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html']]"
+								>
+								Dohody</a>
+
+				</li><li class="file" data="click:'[[\'Help\',\'Help.html\']]'">
+							<a
+								href="Help.html"
+								target="FrameMain"
+								onClick="[['Help','Help.html']]"
+								>
+								Dokumenty</a>
+
+				</li><li class="file" data="click:'[[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN2.html\'],[\'Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;\',\'Odhlenapihlen.html\'],[\'Zm&#283;na hesla\',\'Zmnahesla.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu DL\',\'Dohledaninformace.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby\',\'Dohledaninformace2.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu mimo spis\',\'Dohledaninformace3.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\']]'">
+							<a
+								href="NaplnovatdatumOSN2.html"
+								target="FrameMain"
+								onClick="[['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN2.html'],['Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;','Odhlenapihlen.html'],['Zm&#283;na hesla','Zmnahesla.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['Vložen&iacute; nov&eacute;ho kontaktu DL','Dohledaninformace.html'],['Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby','Dohledaninformace2.html'],['Vložen&iacute; nov&eacute;ho kontaktu mimo spis','Dohledaninformace3.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html']]"
+								>
+								Email</a>
+
+				</li><li class="file" data="click:'[[\'Filtrov&aacute;n&iacute; dat\',\'Filtrovndat.html\'],[\'\',\'.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\'],[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\'],[\'Historie spisu a Z&aacute;pisy z OSN\',\'Newtopic13.html\'],[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Body okolo trasy\',\'Seznamadres3.html\'],[\'Vlastn&iacute; adresy\',\'Informacekespisu.html\']]'">
+							<a
+								href="Filtrovndat.html"
+								target="FrameMain"
+								onClick="[['Filtrov&aacute;n&iacute; dat','Filtrovndat.html'],['','.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html'],['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html'],['Historie spisu a Z&aacute;pisy z OSN','Newtopic13.html'],['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Seznam adres','Trasace.html'],['Filtry','Seznamadres2.html'],['Body okolo trasy','Seznamadres3.html'],['Vlastn&iacute; adresy','Informacekespisu.html']]"
+								>
+								Filtr</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'\',\'.html\'],[\'Filtrov&aacute;n&iacute; dat\',\'Filtrovndat.html\'],[\'Historie spisu a Z&aacute;pisy z OSN\',\'Newtopic13.html\'],[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Ovldnseznamu.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['','.html'],['Filtrov&aacute;n&iacute; dat','Filtrovndat.html'],['Historie spisu a Z&aacute;pisy z OSN','Newtopic13.html'],['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Seznam adres','Trasace.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Filtrovat</a>
+
+				</li><li class="file" data="click:'[[\'\',\'.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\']]'">
+							<a
+								href=".html"
+								target="FrameMain"
+								onClick="[['','.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html']]"
+								>
+								GPS souřadnice</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Help\',\'Help.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Help','Help.html']]"
+								>
+								Help</a>
+
+				</li><li class="file" data="click:'[[\'Zm&#283;na hesla\',\'Zmnahesla.html\']]'">
+							<a
+								href="Zmnahesla.html"
+								target="FrameMain"
+								onClick="[['Zm&#283;na hesla','Zmnahesla.html']]"
+								>
+								Heslo</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\']]'">
+							<a
+								href="Ovldnpodzloek.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html']]"
+								>
+								Hlavičku</a>
+
+				</li><li class="file" data="click:'[[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Tabulka sou&#269;t&#367;\',\'Pokladndenk1.html\']]'">
+							<a
+								href="Pokladna.html"
+								target="FrameMain"
+								onClick="[['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Tabulka sou&#269;t&#367;','Pokladndenk1.html']]"
+								>
+								Hotovost</a>
+
+				</li><li class="file" data="click:'[[\'Hromadn&yacute; p&#345;&iacute;kaz\',\'Pokladndenk.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Hromadn&yacute; tisk\',\'ZlokaTRASACE.html\']]'">
+							<a
+								href="Pokladndenk.html"
+								target="FrameMain"
+								onClick="[['Hromadn&yacute; p&#345;&iacute;kaz','Pokladndenk.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Hromadn&yacute; tisk','ZlokaTRASACE.html']]"
+								>
+								Hromadný příkaz</a>
+
+				</li><li class="file" data="click:'[[\'Hromadn&yacute; tisk\',\'ZlokaTRASACE.html\']]'">
+							<a
+								href="ZlokaTRASACE.html"
+								target="FrameMain"
+								onClick="[['Hromadn&yacute; tisk','ZlokaTRASACE.html']]"
+								>
+								Hromadný tisk</a>
+
+				</li><li class="file" data="click:'[[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'&Uacute;vod\',\'vod.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Help\',\'Help.html\'],[\'Seznam urgenc&iacute;\',\'PehledUrgencpipomnekazprv.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'P&#345;ijet&iacute; spisu\',\'Pijetspisu.html\'],[\'Odm&iacute;tnut&iacute; spisu\',\'Odmtnutspisu.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Hromadn&yacute; p&#345;&iacute;kaz\',\'Pokladndenk.html\'],[\'Tabulka sou&#269;t&#367;\',\'Pokladndenk1.html\'],[\'Vy&uacute;&#269;tov&aacute;n&iacute;\',\'Pokladna1.html\'],[\'Propadl&eacute; kampan&#283;\',\'Vlastnadresy.html\']]'">
+							<a
+								href="ZlokaDOHODYSK1.html"
+								target="FrameMain"
+								onClick="[['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['&Uacute;vod','vod.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['Help','Help.html'],['Seznam urgenc&iacute;','PehledUrgencpipomnekazprv.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Stavy spis&#367;','Podzloky1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['P&#345;ijet&iacute; spisu','Pijetspisu.html'],['Odm&iacute;tnut&iacute; spisu','Odmtnutspisu.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Hromadn&yacute; p&#345;&iacute;kaz','Pokladndenk.html'],['Tabulka sou&#269;t&#367;','Pokladndenk1.html'],['Vy&uacute;&#269;tov&aacute;n&iacute;','Pokladna1.html'],['Propadl&eacute; kampan&#283;','Vlastnadresy.html']]"
+								>
+								Inspektor</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY\',\'Novspis1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\'],[\'Zrušit SK\',\'Akntlatka2.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;\',\'ZlokaDOHODYSK2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Ž&aacute;dost o vr&aacute;cen&iacute; spisu\',\'Akntlatka6.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Seznam bod&#367; kampan&#283;\',\'Seznamkampan.html\'],[\'Propadl&eacute; kampan&#283;\',\'Vlastnadresy.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Stavy spis&#367;','Podzloky1.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY','Novspis1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html'],['Zrušit SK','Akntlatka2.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;','ZlokaDOHODYSK2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN2.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Ž&aacute;dost o vr&aacute;cen&iacute; spisu','Akntlatka6.html'],['Filtry','Seznamadres2.html'],['Seznam bod&#367; kampan&#283;','Seznamkampan.html'],['Propadl&eacute; kampan&#283;','Vlastnadresy.html']]"
+								>
+								Ke zpracování</a>
+
+				</li><li class="file" data="click:'[[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Multijazy&#269;nost\',\'Technickmenu1.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Nastaven&iacute;\',\'Nastaven.html\'],[\'Help\',\'Help.html\'],[\'Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;\',\'Odhlenapihlen.html\'],[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic4.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic5.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic19.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic20.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic22.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic23.html\'],[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Nov&aacute; upom&iacute;nka na spis\',\'Newtopic26.html\'],[\'Nov&aacute; upom&iacute;nka k DL\',\'Newtopic27.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Rozloenobrazovky.html"
+								target="FrameMain"
+								onClick="[['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Multijazy&#269;nost','Technickmenu1.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['Technick&eacute; menu','Technickmenu.html'],['Nastaven&iacute;','Nastaven.html'],['Help','Help.html'],['Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;','Odhlenapihlen.html'],['Menu seznamu','Menuseznamu.html'],['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic4.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic5.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic19.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic20.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic22.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic23.html'],['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Nov&aacute; upom&iacute;nka na spis','Newtopic26.html'],['Nov&aacute; upom&iacute;nka k DL','Newtopic27.html'],['Seznam adres','Trasace.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Menu</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Multijazy&#269;nost\',\'Technickmenu1.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Multijazy&#269;nost','Technickmenu1.html']]"
+								>
+								Multijazyčnost</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Nastaven&iacute;\',\'Nastaven.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Body okolo trasy\',\'Seznamadres3.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Nastaven&iacute;','Nastaven.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Body okolo trasy','Seznamadres3.html']]"
+								>
+								Nastavení</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Zrušit SK\',\'Akntlatka2.html\'],[\'P&#345;esun k OSN\',\'Akntlatka4.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Zrušit SK','Akntlatka2.html'],['P&#345;esun k OSN','Akntlatka4.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Nové</a>
+
+				</li><li class="file" data="click:'[[\'Help\',\'Help.html\']]'">
+							<a
+								href="Help.html"
+								target="FrameMain"
+								onClick="[['Help','Help.html']]"
+								>
+								O programu</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;\',\'Odhlenapihlen.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;','Odhlenapihlen.html']]"
+								>
+								Odhlášení</a>
+
+				</li><li class="file" data="click:'[[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\']]'">
+							<a
+								href="Skrytzobrazensloupc.html"
+								target="FrameMain"
+								onClick="[['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html']]"
+								>
+								Odškrtnout</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'&Uacute;vod\',\'vod.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Seznam urgenc&iacute;\',\'PehledUrgencpipomnekazprv.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Došl&eacute; platby / dohoda o &uacute;hrad&#283;\',\'Newtopic9.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Dalš&iacute; osoby ve spise\',\'Newtopic11.html\'],[\'Dokumentace a fotodokumentace\',\'Newtopic12.html\'],[\'Historie spisu a Z&aacute;pisy z OSN\',\'Newtopic13.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY\',\'Novspis1.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'Zrušit SK\',\'Akntlatka2.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic24.html\'],[\'Hotovostn&iacute; v&yacute;b&#283;r\',\'Akntlatka3.html\'],[\'P&#345;esun k OSN\',\'Akntlatka4.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic7.html\'],[\'P&#345;esun k OSN\',\'Akntlatka5.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Vy&uacute;&#269;tov&aacute;n&iacute;\',\'Pokladna1.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Barevn&eacute; ozna&#269;en&iacute;\',\'Seznamadres1.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Seznam kampan&iacute;\',\'Seznamadres.html\'],[\'Seznam bod&#367; kampan&#283;\',\'Seznamkampan.html\'],[\'Propadl&eacute; kampan&#283;\',\'Vlastnadresy.html\']]'">
+							<a
+								href="Ovldnpodzloek.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['&Uacute;vod','vod.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Seznam urgenc&iacute;','PehledUrgencpipomnekazprv.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Došl&eacute; platby / dohoda o &uacute;hrad&#283;','Newtopic9.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Dalš&iacute; osoby ve spise','Newtopic11.html'],['Dokumentace a fotodokumentace','Newtopic12.html'],['Historie spisu a Z&aacute;pisy z OSN','Newtopic13.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Stavy spis&#367;','Podzloky1.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY','Novspis1.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Z&aacute;pis z OSN','Newtopic.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['Zrušit SK','Akntlatka2.html'],['Z&aacute;pis z OSN','Newtopic24.html'],['Hotovostn&iacute; v&yacute;b&#283;r','Akntlatka3.html'],['P&#345;esun k OSN','Akntlatka4.html'],['Z&aacute;pis z OSN','Newtopic7.html'],['P&#345;esun k OSN','Akntlatka5.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Vy&uacute;&#269;tov&aacute;n&iacute;','Pokladna1.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Seznam adres','Trasace.html'],['Barevn&eacute; ozna&#269;en&iacute;','Seznamadres1.html'],['Filtry','Seznamadres2.html'],['Seznam kampan&iacute;','Seznamadres.html'],['Seznam bod&#367; kampan&#283;','Seznamkampan.html'],['Propadl&eacute; kampan&#283;','Vlastnadresy.html']]"
+								>
+								OSN</a>
+
+				</li><li class="file" data="click:'[[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\']]'">
+							<a
+								href="Seznamzkratekapojm1.html"
+								target="FrameMain"
+								onClick="[['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html']]"
+								>
+								Osobní návštěva</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Seznam urgenc&iacute;\',\'PehledUrgencpipomnekazprv.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY\',\'Novspis1.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN1.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\'],[\'Zrušit SK\',\'Akntlatka2.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic24.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN3.html\'],[\'P&#345;esun k OSN\',\'Akntlatka4.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN2.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic7.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN5.html\'],[\'P&#345;esun k OSN\',\'Akntlatka5.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Ž&aacute;dost o vr&aacute;cen&iacute; spisu\',\'Akntlatka6.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Seznam urgenc&iacute;','PehledUrgencpipomnekazprv.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY','Novspis1.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN1.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html'],['Zrušit SK','Akntlatka2.html'],['Z&aacute;pis z OSN','Newtopic24.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN3.html'],['P&#345;esun k OSN','Akntlatka4.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN2.html'],['Z&aacute;pis z OSN','Newtopic7.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN5.html'],['P&#345;esun k OSN','Akntlatka5.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Ž&aacute;dost o vr&aacute;cen&iacute; spisu','Akntlatka6.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Osobní návštěvy</a>
+
+				</li><li class="file" data="click:'[[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Z&aacute;pis z OSN\',\'Newtopic.html\'],[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'Ru&#269;n&iacute; kontrola GPS\',\'KontrolaGPSsouadnic2.html\']]'">
+							<a
+								href="Menuseznamu.html"
+								target="FrameMain"
+								onClick="[['Menu seznamu','Menuseznamu.html'],['Z&aacute;pis z OSN','Newtopic.html'],['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['Ru&#269;n&iacute; kontrola GPS','KontrolaGPSsouadnic2.html']]"
+								>
+								Ovládání</a>
+
+				</li><li class="file" data="click:'[[\'Vy&uacute;&#269;tov&aacute;n&iacute;\',\'Pokladna1.html\']]'">
+							<a
+								href="Pokladna1.html"
+								target="FrameMain"
+								onClick="[['Vy&uacute;&#269;tov&aacute;n&iacute;','Pokladna1.html']]"
+								>
+								Paušál</a>
+
+				</li><li class="file" data="click:'[[\'Podz&aacute;ložky\',\'Rozloenobrazovky1.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Detail spisu\',\'Podzloky.html\'],[\'Došl&eacute; platby / dohoda o &uacute;hrad&#283;\',\'Newtopic9.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Dalš&iacute; osoby ve spise\',\'Newtopic11.html\'],[\'Dokumentace a fotodokumentace\',\'Newtopic12.html\'],[\'Historie spisu a Z&aacute;pisy z OSN\',\'Newtopic13.html\'],[\'Seznam spis&#367;\',\'Newtopic14.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Specifikace dluhu\',\'Newtopic16.html\']]'">
+							<a
+								href="Rozloenobrazovky1.html"
+								target="FrameMain"
+								onClick="[['Podz&aacute;ložky','Rozloenobrazovky1.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Detail spisu','Podzloky.html'],['Došl&eacute; platby / dohoda o &uacute;hrad&#283;','Newtopic9.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Dalš&iacute; osoby ve spise','Newtopic11.html'],['Dokumentace a fotodokumentace','Newtopic12.html'],['Historie spisu a Z&aacute;pisy z OSN','Newtopic13.html'],['Seznam spis&#367;','Newtopic14.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Specifikace dluhu','Newtopic16.html']]"
+								>
+								Podzáložka</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Z&aacute;ložka POKLADNA\',\'vod1.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['Z&aacute;ložka POKLADNA','vod1.html']]"
+								>
+								Pokladna</a>
+
+				</li><li class="file" data="click:'[[\'Help\',\'Help.html\']]'">
+							<a
+								href="Help.html"
+								target="FrameMain"
+								onClick="[['Help','Help.html']]"
+								>
+								Popis programu</a>
+
+				</li><li class="file" data="click:'[[\'Vy&uacute;&#269;tov&aacute;n&iacute;\',\'Pokladna1.html\'],[\'Tabulka sou&#269;t&#367;\',\'Pokladndenk1.html\']]'">
+							<a
+								href="Pokladna1.html"
+								target="FrameMain"
+								onClick="[['Vy&uacute;&#269;tov&aacute;n&iacute;','Pokladna1.html'],['Tabulka sou&#269;t&#367;','Pokladndenk1.html']]"
+								>
+								Provize</a>
+
+				</li><li class="file" data="click:'[[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\'],[\'P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v\',\'Detailvybranhospisu1.html\'],[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\'],[\'Seznam bod&#367; kampan&#283;\',\'Seznamkampan.html\']]'">
+							<a
+								href="Menuseznamu.html"
+								target="FrameMain"
+								onClick="[['Menu seznamu','Menuseznamu.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html'],['P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v','Detailvybranhospisu1.html'],['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html'],['Seznam bod&#367; kampan&#283;','Seznamkampan.html']]"
+								>
+								Přehled</a>
+
+				</li><li class="file" data="click:'[[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\'],[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\']]'">
+							<a
+								href="Rozenseznamu1.html"
+								target="FrameMain"
+								onClick="[['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html'],['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html']]"
+								>
+								Přehled akčních tlačítek</a>
+
+				</li><li class="file" data="click:'[[\'Rozš&iacute;&#345;en&iacute; seznamu\',\'Rozenseznamu.html\'],[\'Minimalizace oken\',\'Maximalizaceokna.html\']]'">
+							<a
+								href="Rozenseznamu.html"
+								target="FrameMain"
+								onClick="[['Rozš&iacute;&#345;en&iacute; seznamu','Rozenseznamu.html'],['Minimalizace oken','Maximalizaceokna.html']]"
+								>
+								Přepínač</a>
+
+				</li><li class="file" data="click:'[[\'P&#345;esouv&aacute;n&iacute; sloupc&#367;\',\'Pesouvnsloupc.html\'],[\'\',\'.html\']]'">
+							<a
+								href="Pesouvnsloupc.html"
+								target="FrameMain"
+								onClick="[['P&#345;esouv&aacute;n&iacute; sloupc&#367;','Pesouvnsloupc.html'],['','.html']]"
+								>
+								Přesouvání</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;\',\'Odhlenapihlen.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;','Odhlenapihlen.html']]"
+								>
+								Přihlášení</a>
+
+				</li><li class="file" data="click:'[[\'Rozš&iacute;&#345;en&iacute; seznamu\',\'Rozenseznamu.html\']]'">
+							<a
+								href="Rozenseznamu.html"
+								target="FrameMain"
+								onClick="[['Rozš&iacute;&#345;en&iacute; seznamu','Rozenseznamu.html']]"
+								>
+								Rozšíření</a>
+
+				</li><li class="file" data="click:'[[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\']]'">
+							<a
+								href="Tdndat.html"
+								target="FrameMain"
+								onClick="[['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html']]"
+								>
+								Sestupně</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'\',\'.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Menu seznamu\',\'Menuseznamu.html\'],[\'P&#345;esouv&aacute;n&iacute; sloupc&#367;\',\'Pesouvnsloupc.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\'],[\'Rozš&iacute;&#345;en&iacute; seznamu\',\'Rozenseznamu.html\'],[\'Detail vybran&eacute;ho spisu\',\'Detailvybranhospisu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Seznam urgenc&iacute;\',\'PehledUrgencpipomnekazprv.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Došl&eacute; platby / dohoda o &uacute;hrad&#283;\',\'Newtopic9.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Dokumentace a fotodokumentace\',\'Newtopic12.html\'],[\'Seznam spis&#367;\',\'Newtopic14.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Specifikace dluhu\',\'Newtopic16.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Hromadn&aacute; kontrola GPS\',\'KontrolaGPSsouadnic1.html\'],[\'Seznam chybov&yacute;ch zpr&aacute;v\',\'HromadnkontrolaGPS.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby\',\'Dohledaninformace2.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic4.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic5.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic19.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic20.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic22.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic23.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'P&#345;&iacute;loha faktury\',\'ZlokaPOKLADNA.html\'],[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Nov&aacute; upom&iacute;nka na spis\',\'Newtopic26.html\'],[\'Nov&aacute; upom&iacute;nka k DL\',\'Newtopic27.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Barevn&eacute; ozna&#269;en&iacute;\',\'Seznamadres1.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Seznam kampan&iacute;\',\'Seznamadres.html\'],[\'Maximalizace okna\',\'Seznamkampan1.html\'],[\'Minimalizace oken\',\'Maximalizaceokna.html\'],[\'Seznam bod&#367; kampan&#283;\',\'Seznamkampan.html\'],[\'Popis trasy\',\'Seznamkampan2.html\'],[\'Body okolo trasy\',\'Seznamadres3.html\'],[\'Propadl&eacute; kampan&#283;\',\'Vlastnadresy.html\']]'">
+							<a
+								href="Ovldnseznamu.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['','.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['Menu seznamu','Menuseznamu.html'],['P&#345;esouv&aacute;n&iacute; sloupc&#367;','Pesouvnsloupc.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html'],['Rozš&iacute;&#345;en&iacute; seznamu','Rozenseznamu.html'],['Detail vybran&eacute;ho spisu','Detailvybranhospisu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Seznam urgenc&iacute;','PehledUrgencpipomnekazprv.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Došl&eacute; platby / dohoda o &uacute;hrad&#283;','Newtopic9.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Dokumentace a fotodokumentace','Newtopic12.html'],['Seznam spis&#367;','Newtopic14.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Specifikace dluhu','Newtopic16.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Hromadn&aacute; kontrola GPS','KontrolaGPSsouadnic1.html'],['Seznam chybov&yacute;ch zpr&aacute;v','HromadnkontrolaGPS.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby','Dohledaninformace2.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic4.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic5.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic19.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic20.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic22.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic23.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['P&#345;&iacute;loha faktury','ZlokaPOKLADNA.html'],['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Nov&aacute; upom&iacute;nka na spis','Newtopic26.html'],['Nov&aacute; upom&iacute;nka k DL','Newtopic27.html'],['Seznam adres','Trasace.html'],['Barevn&eacute; ozna&#269;en&iacute;','Seznamadres1.html'],['Filtry','Seznamadres2.html'],['Seznam kampan&iacute;','Seznamadres.html'],['Maximalizace okna','Seznamkampan1.html'],['Minimalizace oken','Maximalizaceokna.html'],['Seznam bod&#367; kampan&#283;','Seznamkampan.html'],['Popis trasy','Seznamkampan2.html'],['Body okolo trasy','Seznamadres3.html'],['Propadl&eacute; kampan&#283;','Vlastnadresy.html']]"
+								>
+								Seznam</a>
+
+				</li><li class="file" data="click:'[[\'Zm&#283;na hesla\',\'Zmnahesla.html\']]'">
+							<a
+								href="Zmnahesla.html"
+								target="FrameMain"
+								onClick="[['Zm&#283;na hesla','Zmnahesla.html']]"
+								>
+								Síla hesla</a>
+
+				</li><li class="file" data="click:'[[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\'],[\'\',\'.html\'],[\'Nastaven&iacute;\',\'Nastaven.html\'],[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'P&#345;esouv&aacute;n&iacute; sloupc&#367;\',\'Pesouvnsloupc.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Filtrov&aacute;n&iacute; dat\',\'Filtrovndat.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Skrytzobrazensloupc.html"
+								target="FrameMain"
+								onClick="[['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html'],['','.html'],['Nastaven&iacute;','Nastaven.html'],['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['P&#345;esouv&aacute;n&iacute; sloupc&#367;','Pesouvnsloupc.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Filtrov&aacute;n&iacute; dat','Filtrovndat.html'],['Seznam adres','Trasace.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Sloupce</a>
+
+				</li><li class="file" data="click:'[[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\'],[\'Detail vybran&eacute;ho spisu\',\'Detailvybranhospisu.html\'],[\'Detail dlužn&iacute;ka\',\'Ovldnpodzloek1.html\'],[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Seznam spis&#367;\',\'Newtopic14.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'P&#345;ijet&iacute; spisu\',\'Pijetspisu.html\'],[\'Hromadn&aacute; kontrola GPS\',\'KontrolaGPSsouadnic1.html\'],[\'V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;\',\'Upozornn.html\'],[\'Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY\',\'Novspis1.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'Dohledan&eacute; informace\',\'Newtopic1.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic4.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic19.html\'],[\'Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;\',\'ZlokaDOHODYSK2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic22.html\'],[\'Z&aacute;ložka UKON&#268;EN&Eacute;\',\'ZlokaKEZPRACOVN.html\'],[\'Ak&#269;n&iacute; tla&#269;&iacute;tka\',\'ZlokaUPOZORNN1.html\'],[\'Nov&aacute; upom&iacute;nka na spis\',\'Newtopic26.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Seznam kampan&iacute;\',\'Seznamadres.html\'],[\'Informace ke spisu\',\'Bodyokolotrasy.html\'],[\'Vlastn&iacute; adresy\',\'Informacekespisu.html\'],[\'Propadl&eacute; kampan&#283;\',\'Vlastnadresy.html\']]'">
+							<a
+								href="Menuseznamu.html"
+								target="FrameMain"
+								onClick="[['Menu seznamu','Menuseznamu.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html'],['Detail vybran&eacute;ho spisu','Detailvybranhospisu.html'],['Detail dlužn&iacute;ka','Ovldnpodzloek1.html'],['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Seznam spis&#367;','Newtopic14.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Stavy spis&#367;','Podzloky1.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['P&#345;ijet&iacute; spisu','Pijetspisu.html'],['Hromadn&aacute; kontrola GPS','KontrolaGPSsouadnic1.html'],['V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;','Upozornn.html'],['Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY','Novspis1.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['Dohledan&eacute; informace','Newtopic1.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic4.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic19.html'],['Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;','ZlokaDOHODYSK2.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic22.html'],['Z&aacute;ložka UKON&#268;EN&Eacute;','ZlokaKEZPRACOVN.html'],['Ak&#269;n&iacute; tla&#269;&iacute;tka','ZlokaUPOZORNN1.html'],['Nov&aacute; upom&iacute;nka na spis','Newtopic26.html'],['Filtry','Seznamadres2.html'],['Seznam kampan&iacute;','Seznamadres.html'],['Informace ke spisu','Bodyokolotrasy.html'],['Vlastn&iacute; adresy','Informacekespisu.html'],['Propadl&eacute; kampan&#283;','Vlastnadresy.html']]"
+								>
+								Spisy</a>
+
+				</li><li class="file" data="click:'[[\'\',\'.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Vyhled&aacute;n&iacute; spis&#367;\',\'Vyhlednspis.html\'],[\'Nastaven&iacute;\',\'Nastaven.html\'],[\'Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;\',\'Odhlenapihlen.html\'],[\'Menu seznamu\',\'Menuseznamu.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Skryt&iacute; / zobrazen&iacute; sloupc&#367;\',\'Skrytzobrazensloupc.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\'],[\'Detail vybran&eacute;ho spisu\',\'Detailvybranhospisu.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Podz&aacute;ložky\',\'Rozloenobrazovky1.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Došl&eacute; platby / dohoda o &uacute;hrad&#283;\',\'Newtopic9.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Seznam spis&#367;\',\'Newtopic14.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Stavy spis&#367;\',\'Podzloky1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Napl&aacute;novat datum OSN\',\'DefinicedataOSN.html\'],[\'Kontrola GPS sou&#345;adnic\',\'KontrolaGPSsouadnic.html\'],[\'Seznam chybov&yacute;ch zpr&aacute;v\',\'HromadnkontrolaGPS.html\'],[\'Ru&#269;n&iacute; nastaven&iacute; data OSN\',\'KontrolaGPSsouadnic3.html\'],[\'V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;\',\'Upozornn.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu DL\',\'Dohledaninformace.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby\',\'Dohledaninformace2.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu mimo spis\',\'Dohledaninformace3.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic4.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic5.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic19.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic20.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;\',\'ZlokaDOHODYSK2.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN2.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic22.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic23.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Tabulka sou&#269;t&#367;\',\'Pokladndenk1.html\'],[\'Nov&aacute; upom&iacute;nka na spis\',\'Newtopic26.html\'],[\'Nov&aacute; upom&iacute;nka k DL\',\'Newtopic27.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Barevn&eacute; ozna&#269;en&iacute;\',\'Seznamadres1.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Seznam kampan&iacute;\',\'Seznamadres.html\'],[\'Body okolo trasy\',\'Seznamadres3.html\'],[\'Informace ke spisu\',\'Bodyokolotrasy.html\'],[\'Vlastn&iacute; adresy\',\'Informacekespisu.html\']]'">
+							<a
+								href=".html"
+								target="FrameMain"
+								onClick="[['','.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['Technick&eacute; menu','Technickmenu.html'],['Vyhled&aacute;n&iacute; spis&#367;','Vyhlednspis.html'],['Nastaven&iacute;','Nastaven.html'],['Odhl&aacute;šen&iacute; a p&#345;ihl&aacute;šen&iacute;','Odhlenapihlen.html'],['Menu seznamu','Menuseznamu.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Skryt&iacute; / zobrazen&iacute; sloupc&#367;','Skrytzobrazensloupc.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html'],['Detail vybran&eacute;ho spisu','Detailvybranhospisu.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Podz&aacute;ložky','Rozloenobrazovky1.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Došl&eacute; platby / dohoda o &uacute;hrad&#283;','Newtopic9.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Seznam spis&#367;','Newtopic14.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Stavy spis&#367;','Podzloky1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Napl&aacute;novat datum OSN','DefinicedataOSN.html'],['Kontrola GPS sou&#345;adnic','KontrolaGPSsouadnic.html'],['Seznam chybov&yacute;ch zpr&aacute;v','HromadnkontrolaGPS.html'],['Ru&#269;n&iacute; nastaven&iacute; data OSN','KontrolaGPSsouadnic3.html'],['V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;','Upozornn.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['Vložen&iacute; nov&eacute;ho kontaktu DL','Dohledaninformace.html'],['Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby','Dohledaninformace2.html'],['Vložen&iacute; nov&eacute;ho kontaktu mimo spis','Dohledaninformace3.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic4.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic5.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic19.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic20.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;','ZlokaDOHODYSK2.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN2.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic22.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic23.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Tabulka sou&#269;t&#367;','Pokladndenk1.html'],['Nov&aacute; upom&iacute;nka na spis','Newtopic26.html'],['Nov&aacute; upom&iacute;nka k DL','Newtopic27.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Barevn&eacute; ozna&#269;en&iacute;','Seznamadres1.html'],['Filtry','Seznamadres2.html'],['Seznam kampan&iacute;','Seznamadres.html'],['Body okolo trasy','Seznamadres3.html'],['Informace ke spisu','Bodyokolotrasy.html'],['Vlastn&iacute; adresy','Informacekespisu.html']]"
+								>
+								Stav</a>
+
+				</li><li class="file" data="click:'[[\'Vy&uacute;&#269;tov&aacute;n&iacute;\',\'Pokladna1.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Dokumentace a fotodokumentace\',\'Newtopic12.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'P&#345;ijet&iacute; spisu\',\'Pijetspisu.html\'],[\'Odm&iacute;tnut&iacute; spisu\',\'Odmtnutspisu.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic3.html\'],[\'Uzav&#345;&iacute;t spis\',\'Newtopic8.html\']]'">
+							<a
+								href="Pokladna1.html"
+								target="FrameMain"
+								onClick="[['Vy&uacute;&#269;tov&aacute;n&iacute;','Pokladna1.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Dokumentace a fotodokumentace','Newtopic12.html'],['Term&iacute;ny OSN','Newtopic15.html'],['P&#345;ijet&iacute; spisu','Pijetspisu.html'],['Odm&iacute;tnut&iacute; spisu','Odmtnutspisu.html'],['Uzav&#345;&iacute;t spis','Newtopic3.html'],['Uzav&#345;&iacute;t spis','Newtopic8.html']]"
+								>
+								Supervizor</a>
+
+				</li><li class="file" data="click:'[[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu DL\',\'Dohledaninformace.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby\',\'Dohledaninformace2.html\'],[\'Vložen&iacute; nov&eacute;ho kontaktu mimo spis\',\'Dohledaninformace3.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN1.html\'],[\'Kontakt s dlužn&iacute;kem\',\'NaplnovatdatumOSN2.html\']]'">
+							<a
+								href="NaplnovatdatumOSN.html"
+								target="FrameMain"
+								onClick="[['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN.html'],['Vložen&iacute; nov&eacute;ho kontaktu DL','Dohledaninformace.html'],['Vložen&iacute; nov&eacute;ho kontaktu jin&eacute; osoby','Dohledaninformace2.html'],['Vložen&iacute; nov&eacute;ho kontaktu mimo spis','Dohledaninformace3.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN1.html'],['Kontakt s dlužn&iacute;kem','NaplnovatdatumOSN2.html']]"
+								>
+								Telefon</a>
+
+				</li><li class="file" data="click:'[[\'\',\'.html\'],[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Filtry\',\'Seznamadres2.html\'],[\'Informace ke spisu\',\'Bodyokolotrasy.html\'],[\'Vlastn&iacute; adresy\',\'Informacekespisu.html\']]'">
+							<a
+								href=".html"
+								target="FrameMain"
+								onClick="[['','.html'],['Hlavn&iacute; menu','Hlavnmenu.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Filtry','Seznamadres2.html'],['Informace ke spisu','Bodyokolotrasy.html'],['Vlastn&iacute; adresy','Informacekespisu.html']]"
+								>
+								Trasace</a>
+
+				</li><li class="file" data="click:'[[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'\',\'.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\']]'">
+							<a
+								href="Tdndat.html"
+								target="FrameMain"
+								onClick="[['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['','.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html']]"
+								>
+								Třídění</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'\',\'.html\'],[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Historie spisu a Z&aacute;pisy z OSN\',\'Newtopic13.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Seznam adres\',\'Trasace.html\'],[\'Filtry\',\'Seznamadres2.html\']]'">
+							<a
+								href="Ovldnseznamu.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['','.html'],['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Historie spisu a Z&aacute;pisy z OSN','Newtopic13.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Seznam adres','Trasace.html'],['Filtry','Seznamadres2.html']]"
+								>
+								Třídit</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'Z&aacute;ložka UKON&#268;EN&Eacute;\',\'ZlokaKEZPRACOVN.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['Z&aacute;ložka UKON&#268;EN&Eacute;','ZlokaKEZPRACOVN.html']]"
+								>
+								Ukončené</a>
+
+				</li><li class="file" data="click:'[[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\']]'">
+							<a
+								href="ZlokaUPOZORNN.html"
+								target="FrameMain"
+								onClick="[['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html']]"
+								>
+								Upomínky</a>
+
+				</li><li class="file" data="click:'[[\'Hlavn&iacute; menu\',\'Hlavnmenu.html\'],[\'P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v\',\'Detailvybranhospisu1.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;\',\'Upozornn.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic4.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic5.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic19.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic20.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'P&#345;ipom&iacute;nka ke spisu\',\'Newtopic22.html\'],[\'P&#345;ipom&iacute;nka k dlužn&iacute;kovi\',\'Newtopic23.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\'],[\'Nov&aacute; upom&iacute;nka na spis\',\'Newtopic26.html\'],[\'Nov&aacute; upom&iacute;nka k DL\',\'Newtopic27.html\']]'">
+							<a
+								href="Hlavnmenu.html"
+								target="FrameMain"
+								onClick="[['Hlavn&iacute; menu','Hlavnmenu.html'],['P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v','Detailvybranhospisu1.html'],['Term&iacute;ny OSN','Newtopic15.html'],['V&yacute;b&#283;r spisu - Upozorn&#283;n&iacute;','Upozornn.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic4.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic5.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic19.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic20.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['P&#345;ipom&iacute;nka ke spisu','Newtopic22.html'],['P&#345;ipom&iacute;nka k dlužn&iacute;kovi','Newtopic23.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html'],['Nov&aacute; upom&iacute;nka na spis','Newtopic26.html'],['Nov&aacute; upom&iacute;nka k DL','Newtopic27.html']]"
+								>
+								Upozornění</a>
+
+				</li><li class="file" data="click:'[[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'Detail vybran&eacute;ho spisu\',\'Detailvybranhospisu.html\'],[\'P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v\',\'Detailvybranhospisu1.html\'],[\'Term&iacute;ny OSN\',\'Newtopic15.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'P&#345;ijet&iacute; spisu\',\'Pijetspisu.html\'],[\'Napl&aacute;novat datum OSN\',\'Akntlatka1.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Z&aacute;ložka UKON&#268;EN&Eacute;\',\'ZlokaKEZPRACOVN.html\'],[\'Pokladn&iacute; den&iacute;k\',\'Pokladna.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\']]'">
+							<a
+								href="ZlokaUPOZORNN.html"
+								target="FrameMain"
+								onClick="[['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['Detail vybran&eacute;ho spisu','Detailvybranhospisu.html'],['P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v','Detailvybranhospisu1.html'],['Term&iacute;ny OSN','Newtopic15.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['P&#345;ijet&iacute; spisu','Pijetspisu.html'],['Napl&aacute;novat datum OSN','Akntlatka1.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Z&aacute;ložka UKON&#268;EN&Eacute;','ZlokaKEZPRACOVN.html'],['Pokladn&iacute; den&iacute;k','Pokladna.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html']]"
+								>
+								Urgence</a>
+
+				</li><li class="file" data="click:'[[\'Seznam chybov&yacute;ch zpr&aacute;v\',\'HromadnkontrolaGPS.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN1.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN5.html\'],[\'Ukl&aacute;d&aacute;n&iacute; a validace adres\',\'ZpiszOSN3.html\']]'">
+							<a
+								href="HromadnkontrolaGPS.html"
+								target="FrameMain"
+								onClick="[['Seznam chybov&yacute;ch zpr&aacute;v','HromadnkontrolaGPS.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN1.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN5.html'],['Ukl&aacute;d&aacute;n&iacute; a validace adres','ZpiszOSN3.html']]"
+								>
+								Validace</a>
+
+				</li><li class="file" data="click:'[[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\']]'">
+							<a
+								href="Rozenseznamu1.html"
+								target="FrameMain"
+								onClick="[['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html']]"
+								>
+								Výběr jednoho spisu</a>
+
+				</li><li class="file" data="click:'[[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\']]'">
+							<a
+								href="Rozenseznamu1.html"
+								target="FrameMain"
+								onClick="[['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html']]"
+								>
+								Výběr více spisů</a>
+
+				</li><li class="file" data="click:'[[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\']]'">
+							<a
+								href="Rozenseznamu1.html"
+								target="FrameMain"
+								onClick="[['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html']]"
+								>
+								Výběr všech spisů</a>
+
+				</li><li class="file" data="click:'[[\'V&yacute;b&#283;r spis&#367;\',\'Rozenseznamu1.html\']]'">
+							<a
+								href="Rozenseznamu1.html"
+								target="FrameMain"
+								onClick="[['V&yacute;b&#283;r spis&#367;','Rozenseznamu1.html']]"
+								>
+								Výběr všech vyfiltrovaných spisů</a>
+
+				</li><li class="file" data="click:'[[\'Technick&eacute; menu\',\'Technickmenu.html\'],[\'Vyhled&aacute;n&iacute; spis&#367;\',\'Vyhlednspis.html\']]'">
+							<a
+								href="Technickmenu.html"
+								target="FrameMain"
+								onClick="[['Technick&eacute; menu','Technickmenu.html'],['Vyhled&aacute;n&iacute; spis&#367;','Vyhlednspis.html']]"
+								>
+								Vyhledání spisů</a>
+
+				</li><li class="file" data="click:'[[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'Vyhled&aacute;n&iacute; spis&#367;\',\'Vyhlednspis.html\']]'">
+							<a
+								href="Tdndat.html"
+								target="FrameMain"
+								onClick="[['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['Vyhled&aacute;n&iacute; spis&#367;','Vyhlednspis.html']]"
+								>
+								Vzestupně</a>
+
+				</li><li class="file" data="click:'[[\'Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka\',\'Akntlatka.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Vyhled&aacute;n&iacute; spis&#367;\',\'Vyhlednspis.html\'],[\'Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek\',\'Ovldnpodzloek.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Podz&aacute;ložky\',\'Rozloenobrazovky1.html\'],[\'SEZNAM použit&iacute; podz&aacute;ložek\',\'Podzloky3.html\'],[\'Detail spisu\',\'Podzloky.html\'],[\'Došl&eacute; platby / dohoda o &uacute;hrad&#283;\',\'Newtopic9.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\'],[\'Dalš&iacute; osoby ve spise\',\'Newtopic11.html\'],[\'Dokumentace a fotodokumentace\',\'Newtopic12.html\'],[\'Barevn&eacute; ozna&#269;en&iacute; spis&#367;\',\'Menuseznamu1.html\'],[\'Z&aacute;ložka NOV&Eacute;\',\'Novspis.html\'],[\'Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY\',\'Novspis1.html\'],[\'P&#345;esun ke zpracov&aacute;n&iacute;\',\'Newtopic2.html\'],[\'Z&aacute;ložka DOHODY/SK\',\'Podzloky2.html\'],[\'Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;\',\'ZlokaDOHODYSK2.html\'],[\'Z&aacute;ložka UKON&#268;EN&Eacute;\',\'ZlokaKEZPRACOVN.html\'],[\'Z&aacute;ložka POKLADNA\',\'vod1.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\'],[\'Z&aacute;ložka TRASACE\',\'ZlokaDOHODYSK1.html\'],[\'Informace ke spisu\',\'Bodyokolotrasy.html\']]'">
+							<a
+								href="Akntlatka.html"
+								target="FrameMain"
+								onClick="[['Co jsou ak&#269;n&iacute; tla&#269;&iacute;tka','Akntlatka.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Vyhled&aacute;n&iacute; spis&#367;','Vyhlednspis.html'],['Ovl&aacute;d&aacute;n&iacute; podz&aacute;ložek','Ovldnpodzloek.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Podz&aacute;ložky','Rozloenobrazovky1.html'],['SEZNAM použit&iacute; podz&aacute;ložek','Podzloky3.html'],['Detail spisu','Podzloky.html'],['Došl&eacute; platby / dohoda o &uacute;hrad&#283;','Newtopic9.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html'],['Dalš&iacute; osoby ve spise','Newtopic11.html'],['Dokumentace a fotodokumentace','Newtopic12.html'],['Barevn&eacute; ozna&#269;en&iacute; spis&#367;','Menuseznamu1.html'],['Z&aacute;ložka NOV&Eacute;','Novspis.html'],['Z&aacute;ložka OSOBN&Iacute; N&Aacute;VŠT&#282;VY','Novspis1.html'],['P&#345;esun ke zpracov&aacute;n&iacute;','Newtopic2.html'],['Z&aacute;ložka DOHODY/SK','Podzloky2.html'],['Z&aacute;ložka KE ZPRACOV&Aacute;N&Iacute;','ZlokaDOHODYSK2.html'],['Z&aacute;ložka UKON&#268;EN&Eacute;','ZlokaKEZPRACOVN.html'],['Z&aacute;ložka POKLADNA','vod1.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html'],['Z&aacute;ložka TRASACE','ZlokaDOHODYSK1.html'],['Informace ke spisu','Bodyokolotrasy.html']]"
+								>
+								Záložka</a>
+
+				</li><li class="file" data="click:'[[\'\',\'.html\'],[\'Seznam zkratek  a  pojm&#367;\',\'Seznamzkratekapojm1.html\']]'">
+							<a
+								href=".html"
+								target="FrameMain"
+								onClick="[['','.html'],['Seznam zkratek  a  pojm&#367;','Seznamzkratekapojm1.html']]"
+								>
+								Zaměstnanec</a>
+
+				</li><li class="file" data="click:'[[\'Zm&#283;na hesla\',\'Zmnahesla.html\'],[\'Nastaven&iacute;\',\'Nastaven.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Kontaktn&iacute; &uacute;daje\',\'Newtopic10.html\']]'">
+							<a
+								href="Zmnahesla.html"
+								target="FrameMain"
+								onClick="[['Zm&#283;na hesla','Zmnahesla.html'],['Nastaven&iacute;','Nastaven.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Kontaktn&iacute; &uacute;daje','Newtopic10.html']]"
+								>
+								Změna</a>
+
+				</li><li class="file" data="click:'[[\'Ovl&aacute;d&aacute;n&iacute; seznamu\',\'Ovldnseznamu.html\'],[\'\',\'.html\'],[\'Menu seznamu\',\'Menuseznamu.html\'],[\'Ru&#269;n&iacute; kontrola GPS\',\'KontrolaGPSsouadnic2.html\'],[\'Body okolo trasy\',\'Seznamadres3.html\']]'">
+							<a
+								href="Ovldnseznamu.html"
+								target="FrameMain"
+								onClick="[['Ovl&aacute;d&aacute;n&iacute; seznamu','Ovldnseznamu.html'],['','.html'],['Menu seznamu','Menuseznamu.html'],['Ru&#269;n&iacute; kontrola GPS','KontrolaGPSsouadnic2.html'],['Body okolo trasy','Seznamadres3.html']]"
+								>
+								Zobrazit</a>
+
+				</li><li class="file" data="click:'[[\'Zobrazen&iacute; z&aacute;znam&#367;\',\'ZlokaUPOZORNN.html\'],[\'P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v\',\'Detailvybranhospisu1.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic6.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic21.html\'],[\'P&#345;ehled p&#345;ipom&iacute;nek\',\'Newtopic25.html\'],[\'Z&aacute;ložka UPOZORN&#282;N&Iacute;\',\'EOSTRACE1.html\']]'">
+							<a
+								href="ZlokaUPOZORNN.html"
+								target="FrameMain"
+								onClick="[['Zobrazen&iacute; z&aacute;znam&#367;','ZlokaUPOZORNN.html'],['P&#345;ehled Urgenc&iacute;, p&#345;ipom&iacute;nek a zpr&aacute;v','Detailvybranhospisu1.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic6.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic21.html'],['P&#345;ehled p&#345;ipom&iacute;nek','Newtopic25.html'],['Z&aacute;ložka UPOZORN&#282;N&Iacute;','EOSTRACE1.html']]"
+								>
+								Zprávy</a>
+
+				</li><li class="file" data="click:'[[\'T&#345;&iacute;d&#283;n&iacute; dat\',\'Tdndat.html\'],[\'P&#345;esouv&aacute;n&iacute; sloupc&#367;\',\'Pesouvnsloupc.html\'],[\'&Uacute;vod\',\'vod.html\'],[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\'],[\'Zrušen&iacute; nastaven&iacute;\',\'Zruennastaven.html\'],[\'P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek\',\'Stavyspis.html\'],[\'Zrušit SK\',\'Akntlatka2.html\']]'">
+							<a
+								href="Tdndat.html"
+								target="FrameMain"
+								onClick="[['T&#345;&iacute;d&#283;n&iacute; dat','Tdndat.html'],['P&#345;esouv&aacute;n&iacute; sloupc&#367;','Pesouvnsloupc.html'],['&Uacute;vod','vod.html'],['Rozložen&iacute; obrazovky','Rozloenobrazovky.html'],['Zrušen&iacute; nastaven&iacute;','Zruennastaven.html'],['P&#345;ehled ak&#269;n&iacute;ch tla&#269;&iacute;tek','Stavyspis.html'],['Zrušit SK','Akntlatka2.html']]"
+								>
+								Zrušení</a>
+
+				</li><li class="file" data="click:'[[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\']]'">
+							<a
+								href="Rozloenobrazovky.html"
+								target="FrameMain"
+								onClick="[['Rozložen&iacute; obrazovky','Rozloenobrazovky.html']]"
+								>
+								Zrušení filtru</a>
+
+				</li><li class="file" data="click:'[[\'Rozložen&iacute; obrazovky\',\'Rozloenobrazovky.html\']]'">
+							<a
+								href="Rozloenobrazovky.html"
+								target="FrameMain"
+								onClick="[['Rozložen&iacute; obrazovky','Rozloenobrazovky.html']]"
+								>
+								Zvětšení</a>
+
+				</li></ul>
+		</div>
+		
+		<div id="tab-search">
+			<form onsubmit="PerformSearch(); return false;">
+				<label for="search_value">Search:</label>
+				<input id="search_value" name="search_value"></input>
+				<input type="submit" value="Search"/>
+			</form>
+			<div id="search_results"></div>
+		</div>
+		
+		</div>
+    
+</body>
+
+</html>
+
